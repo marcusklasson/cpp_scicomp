@@ -3,7 +3,7 @@
 
 using namespace std;
 
-double factorial(int n) { // Explicit computation of factorial should be avoided for best results! So there msut be other way
+unsigned long factorial(int n) { // Explicit computation of factorial should be avoided for best results! So there must be other way
 	if (n > 1) {
 		return n * factorial(n-1);
 	} else {
@@ -14,64 +14,53 @@ double factorial(int n) { // Explicit computation of factorial should be avoided
 double hornersMethod(int N, double x) {
 	// Assuming all coefficients = 1.0
 	// Is not stable and doesn't give corret result!
-	double result = 1.0;
+	//double result = 1.0;
+	double result = 1.0 / factorial(0);
 	//cout << "N: " << N << endl;
-	for (int i = 1; i < N; i++) {
-		result = result*pow(x,2) + 1.0;
+	for (int i = 1; i <= N; i++) {
+		//result = result*x*x + 1.0;
+		result = result*x*x + pow(-1.0, i)/factorial(2*i);
 	}
-	return result * x; 
+	return result; 
 }
 
 double sinTaylor(int N, double x) {
-
-	//double result = 0.0;
-	double sum = 0.0;
-	double firstTerm;
-	for (int n = 0; n <= N; n++) {
+	
+	double result = pow(-1.0, N) / factorial(2*N + 1);
+	for (int n = N-1; n >= 0; n--) {
+		result = result*x*x + pow(-1.0, n) / factorial(2*n + 1);
 		
-		if (n % 2 == 0) { // This should be possible to make shorter, e.g. with ? 1:-1 or something like that
-			firstTerm = 1;
-		} else {
-			firstTerm = -1;
-		}
-		//cout << "n = " << n << " firstTerm = " << firstTerm << "\n";
-		//sum += firstTerm * pow(x, 2*n+1) / factorial(2*n+1);
-		sum += firstTerm * hornersMethod(n, x) / factorial(2*n+1);
 	}
-	return sum;
+	return result*x;
 }
 
 double cosTaylor(int N, double x) {
 
-	//double result = 0.0;
-	unsigned int fact = 1;
-	unsigned int sum = 0;
-	for (int n = 0; n <= N; ++n) {
-
-		sum += factorial(n);
+	double result = pow(-1.0, N) / factorial(2*N);
+	for (int n = N-1; n >= 0; n--) {
+		result = result*x*x + pow(-1.0, n) / factorial(2*n);
+		
 	}
-	return sum;
+	return result;
+	
 }
 
+/*
+Works for small x and N <= 15.
+I guess it's the factorial that messes it up,
+so I need to find another way.
+Also need to write in C++ style with header file and so on.
+*/
 int main() {
 	
-	int N = 100;
-	/* Let user select N later
-	cout << "Select number of terms in Taylor series: " << endl;
-	cin >> N; */
+	int N = 10;
+	double x = 2;
 
-	double x = 3;
-
-	cout << "Horner's method: " << hornersMethod(N, x) << endl;
-
-	//cout << "Factorial (2N + 1)! = " << sinTaylor(N, x) << " for N = " << N << endl;
 	cout << "Taylor series of sin(x) = " << sinTaylor(N, x) << " for N = " << N << endl;
-	cout << "sin(1) = " << sin(x) << endl;
+	cout << "True sin(x) = " << sin(x) << endl;
 
-	cout << "N+1 term: " << pow(-1.0, N+1) * hornersMethod(N+1, x) / factorial(2*(N+1)+1) << "\n";
-	//cout << "Taylor series of sin(x) = " << sinTaylor(N, x) << " for x = " << x << endl;
-
-
+	cout << "Taylor series of cos(x) = " << cosTaylor(N, x) << " for N = " << N << endl;
+	cout << "True cos(x) = " << cos(x) << endl;
 
 	return 0;
 }
