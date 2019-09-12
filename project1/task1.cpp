@@ -37,13 +37,44 @@ double sinTaylor(int N, double x) {
 double cosTaylor(int N, double x) {
 
 	double result = pow(-1.0, N) / factorial(2*N);
-	for (int n = N-1; n >= 0; n--) {
+
+	for (int n = N-1; n > 0; n--) {
 		result = result*x*x + pow(-1.0, n) / factorial(2*n);
-		
 	}
+	result = result*x*x + 1.0; // n = 0
 	return result;
 	
 }
+
+
+// Alternative solution. Didn't work much better
+double cosTaylorAlternative(int N, double x) {
+
+	//double result = pow(-1.0, N) / factorial(2*N);
+
+	// Compute factorial of N
+	unsigned long fact = 1;
+	for (int i = 1; i <= 2*N; i++) {
+		fact = fact * i;
+	}
+	//cout << "factorial: " << fact << endl;
+	double result = pow(-1.0, N) / fact;
+
+	//for (int n = N-1; n >= 0; n--) {
+	for (int n = N-1; n > 0; n--) {
+		//result = result*x*x + pow(-1.0, n) / factorial(2*n);
+		//cout << "n: " << n << endl;
+		fact =  fact / ((2*(n + 1)) * (2*(n + 1)-1));
+		
+		//cout << "factorial: " << fact << endl;
+		result = result*x*x + pow(-1.0, n) / fact;
+		
+	}
+	result = result*x*x + 1.0; // n = 0
+	return result;
+	
+}
+
 
 /*
 Works for small x and N <= 15.
@@ -53,13 +84,17 @@ Also need to write in C++ style with header file and so on.
 */
 int main() {
 	
-	int N = 10;
-	double x = 2;
+	// User input for N and x?
+	int N = 3;
+	double x = 5;
 
 	cout << "Taylor series of sin(x) = " << sinTaylor(N, x) << " for N = " << N << endl;
 	cout << "True sin(x) = " << sin(x) << endl;
 
 	cout << "Taylor series of cos(x) = " << cosTaylor(N, x) << " for N = " << N << endl;
+	cout << "True cos(x) = " << cos(x) << endl;
+
+	cout << "Taylor series of cos(x) = " << cosTaylorAlternative(N, x) << " for N = " << N << endl;
 	cout << "True cos(x) = " << cos(x) << endl;
 
 	return 0;
