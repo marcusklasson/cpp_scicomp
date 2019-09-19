@@ -34,6 +34,27 @@ double sinTaylor(int N, double x) {
 	return result*x;
 }
 
+double sinTaylorAlternative(int N, double x) {
+
+	// Rewrite this one! It's the same as 
+	// https://math.stackexchange.com/questions/184302/create-a-c-program-to-evaluate-the-following-series-sin-x-approx-x-frac
+	int sign = 1;
+	double sum = 0.0;
+	const double x_squared = x*x;
+	double current_power_of_x = x;
+	int current_factorial = 1;
+	int term_num = 1;
+    while(term_num <= N) {
+        sum += sign * current_power_of_x / current_factorial;
+        current_power_of_x *= x_squared;
+        current_factorial *= (term_num + 2) * (term_num + 1);
+        sign *= -1.0;
+        term_num += 2;
+    }
+    
+	return sum;
+}
+
 double cosTaylor(int N, double x) {
 
 	double result = pow(-1.0, N) / factorial(2*N);
@@ -85,10 +106,20 @@ Also need to write in C++ style with header file and so on.
 int main() {
 	
 	// User input for N and x?
-	int N = 3;
-	double x = 5;
+	int N;
+	double x;
+	cout << "Select N terms: " << endl;
+	cin >> N;
+	cout << "Select x: " << endl;
+	//cin >> x;
+
+	x = 2*M_PI; //x * (M_PI / 180);
+	cout << "x in radians: " << x << endl;
 
 	cout << "Taylor series of sin(x) = " << sinTaylor(N, x) << " for N = " << N << endl;
+	cout << "True sin(x) = " << sin(x) << endl;
+
+	cout << "Taylor series of sin(x) = " << sinTaylorAlternative(N, x) << " for N = " << N << endl;
 	cout << "True sin(x) = " << sin(x) << endl;
 
 	cout << "Taylor series of cos(x) = " << cosTaylor(N, x) << " for N = " << N << endl;
