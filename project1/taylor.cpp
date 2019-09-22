@@ -57,6 +57,7 @@ int main() {
 		cout << i << "\t" << sin(i) << "\t " << sinTaylor(n, i) << "\t" << cos(i) << "\t " << cosTaylor(n, i) << endl;
 	}
 
+	// TODO: fix how we compute the error bound!
 	double bound;
 	double sinApprox;
 	for (int i = -1; i <= 10; ++i) {
