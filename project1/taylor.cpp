@@ -59,6 +59,7 @@ int main() {
 	double error, bound;
 	double sinApprox, cosApprox;
 
+	printf("Computing Taylor series of sin(x) and cos(x) using %d terms.\n\n", n);
 	cout << "x \t sin(x) \t sinTaylor(x) \t error \t\t bound \t" << endl;
 	for (int i = 0; i != x.size(); ++i) {
 		sinApprox = sinTaylor(n, x[i]);
