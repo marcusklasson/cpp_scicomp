@@ -1,5 +1,7 @@
 #include <iostream>
+#include <stdio.h>
 #include <cmath>
+#include <vector>
 #include "asi.hpp"
 
 using namespace std;
@@ -26,20 +28,15 @@ double ASI(FunctionPointer f, double a, double b, double tol) {
 }
 
 int main() {
-	double I, tol;
+	double I;
+	vector<double> tol = {10e-2, 10e-3, 10e-4};
 
-	// Write program with for loop over new tolerance!
-	tol = 10e-2;
-	I = ASI(&target, -1.0, 1.0, tol);
-	cout << "I with tol " << tol << " : " << I << endl;
-
-	tol = 10e-3;
-	I = ASI(&target, -1.0, 1.0, tol);
-	cout << "I with tol " << tol << " : " << I << endl;
-
-	tol = 10e-4;
-	I = ASI(&target, -1.0, 1.0, tol);
-	cout << "I with tol " << tol << " : " << I << endl;
+	printf("Adaptive Simpson Integration of f(x) = 1 + sin(exp(3*x)): \n");
+	printf(" I \t\t tolerance \n");
+	for (int i = 0; i != tol.size(); ++i) {
+		I = ASI(&target, -1.0, 1.0, tol[i]);
+		printf(" %3.6f \t %.e \n", I, tol[i]);
+	}
 
 	return 0; 
 }
