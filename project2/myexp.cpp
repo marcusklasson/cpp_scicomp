@@ -1,49 +1,55 @@
 #include <iostream>
 #include <cmath>
-#include <cstdlib>
+#include <vector>
+#include <iomanip>
 #include "myexp.hpp"
 
 using namespace std;
 
 double myexp(double x, double tol) {
-
+	/* Calculate exp(x) with Taylor series.
+	   If x is negative, then return 1/exp(x) = exp(-x) */
 	int niter = 0;
-	double t, sum, pre;
-	sum = 1.0; // First element in sum is always equal to 1
+	double t, sum, pre, x1;
+	t = 1.0; // First term in sum is always equal to 1
+	sum += t; // Add first term to sum 
 	pre = 0.0;
-	t = 1.0;
-	double x1 = abs(x);
+	x1 = abs(x); // Use temporary positive x for computing exp(x)
 	while (abs(sum-pre) > tol) {
 		niter++;
 		if (niter > 1000) {
 			cout << "No convergence! Returning current sum..." << endl;
 			return sum;
-			//cerr << "No convergence! Exit calculation..." << endl;
-			//exit(1);
 		}
 		pre = sum;
-		//cout << "niter = " << niter << endl;
 		t = t*(x1/niter);
-		//cout << "t = " << t << endl;
 		sum += t;
 	} 
-
-	if (x >= 0) {
-		return sum;
-	} else {
+	if (x < 0) {
 		return 1/sum;
 	}
-
-	//return sum;
+	return sum;
 }
 
 int main() {
 
-	// Todo: Large negative numbers explode!
-	double x = 500;
+	// Read unknown number of inputs 
+	double value;
+	vector<double> x;
 
-	cout << "exp(" << x << ") = " << myexp(x) << endl;
-	cout << "cmath: " << exp(x) << endl;
+	cout << "User input values for evaluating exp(x).\n";
+	cout << "Use whitespaces between new inputs. End line by pressing Enter + CTRL-d.\n";
+	while (cin >> value) {
+		x.push_back(value);
+	}
 
+	cout << left << setw(15) << "x";
+	cout << right << setw(15) << "myexp(x)";
+	cout << right << setw(15) << "exp(x)" << endl;
+	for (int i = 0; i != x.size(); i++) {
+		cout << left << setw(15) << x[i];
+		cout << right << setw(15) << myexp(x[i]);
+		cout << right << setw(15) << exp(x[i]) << endl;
+	}
 	return 0;
 }
