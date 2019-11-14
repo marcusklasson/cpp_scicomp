@@ -12,8 +12,8 @@ private:
 	std::vector<std::vector<double>> matrix;
 
 public:
-	Matrix(unsigned m);
-	Matrix(unsigned m, unsigned n, double val);
+	Matrix(unsigned int m);
+	Matrix(unsigned int m, unsigned int n, double val);
 	Matrix(const Matrix &); // Copy constructor. 
 	//~Matrix(); // Do I need a destructor?
 
