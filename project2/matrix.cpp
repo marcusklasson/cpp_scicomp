@@ -13,7 +13,18 @@ Matrix::Matrix(unsigned int m) {
 	}
 }
 
+Matrix::Matrix(const Matrix& B) {
+	mRows = B.mRows;
+	mCols = B.mCols;
+
+	matrix.reserve(mRows);
+	for (unsigned int i = 0; i != mRows; ++i) {
+		matrix.push_back(B.matrix[i]);
+	}
+}
+
 Matrix& Matrix::operator=(const Matrix& B) {
+	// Todo: Should be possible to execute if A and B have different sizes!  
 	for (unsigned int i = 0; i != mRows; ++i) {
 		for (unsigned int j = 0; j != mCols; ++j) {
 			matrix[i][j] = B.matrix[i][j];
@@ -23,6 +34,7 @@ Matrix& Matrix::operator=(const Matrix& B) {
 }
 
 Matrix& Matrix::operator+=(const Matrix& B) {
+	// Todo: Check if A and B are of same size, if not return error!
 	for (unsigned int i = 0; i != mRows; ++i) {
 		for (unsigned int j = 0; j != mCols; ++j) {
 			matrix[i][j] += B.matrix[i][j];
@@ -90,8 +102,11 @@ int main() {
 	matrix.printMatrix();
 	B.printMatrix();
 
-	matrix *= B;
+	matrix *= B; // Matrix multiplication!
 	matrix.printMatrix();
+
+	Matrix C(B);
+	C.printMatrix();
 	/*
 	matrix += B;
 	matrix.printMatrix();
