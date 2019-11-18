@@ -7,8 +7,8 @@
 class Matrix {
 
 private:
-	unsigned mRows;
-	unsigned mCols;
+	unsigned int mRows;
+	unsigned int mCols;
 	std::vector<std::vector<double>> matrix;
 
 public:
