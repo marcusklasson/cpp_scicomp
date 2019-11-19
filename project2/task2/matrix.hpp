@@ -1,7 +1,6 @@
 #ifndef MATRIX_HPP
 #define MATRIX_HPP
 
-#include <iostream>
 #include <vector>
 
 class Matrix {
@@ -21,10 +20,10 @@ public:
 	Matrix operator+(const Matrix&);
 	Matrix operator-(const Matrix&);
 	Matrix operator*(const Matrix&);
-	Matrix transpose();
+	//Matrix transpose();
 	Matrix operator+(double);
 	Matrix operator-(double);
-	Matrix operator*(double);
+	//Matrix operator*(double);
 	Matrix operator/(double);
 
 	//double& operator[](unsigned&, unsigned&);
@@ -39,6 +38,16 @@ public:
 	double norm() const;
 	void printMatrix() const;
 	void fillMatrix(double x=0.0);	
+
+	// New member functions
+	unsigned int getRows() {return mRows;}
+	unsigned int getCols() {return mCols;}
+	void identity();
+	Matrix& operator*(double);
+	double normFrobenius(); // should it be const here????
+	Matrix transpose();
+	double trace();
+	Matrix matrixExponential(double t = 1.0, double tol = 1e-10);
 
 };
 
