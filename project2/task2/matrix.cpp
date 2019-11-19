@@ -2,6 +2,9 @@
 
 using namespace std;
 
+#include "r8lib.h" // has to be included after namespace std
+#include "r8mat_expm1.h" 
+
 Matrix::Matrix(unsigned int m) {
 	mRows = m;
 	mCols = m;
@@ -107,15 +110,13 @@ int main() {
 
 	Matrix C(B);
 	C.printMatrix();
-	/*
-	matrix += B;
-	matrix.printMatrix();
+	
+	cout << "Matrix exponential from provided routine r8mat_lib: \n";
+	int n = 2;
+	double array[4] = {1.0, 1.0, 1.0, 1.0};
 
-	matrix += matrix;
-	matrix.printMatrix();
+	double* result = r8mat_expm1(n, array);
+	r8mat_print(n, n, result, "Cool matrix");
 
-	matrix = B;
-	matrix.printMatrix();	
-	*/
 	return 0;
 }
