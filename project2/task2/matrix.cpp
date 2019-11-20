@@ -15,7 +15,7 @@ Matrix::Matrix(unsigned int m) {
 	mCols = m;
 
 	matrix.reserve(mRows);
-	for (unsigned int i = 0; i != mRows; ++i) {
+	for (unsigned int i = 0; i < mRows; ++i) {
 		vector<double> col(mCols, 0.0);
 		matrix.push_back(col);
 	}
@@ -26,16 +26,16 @@ Matrix::Matrix(const Matrix& B) {
 	mCols = B.mCols;
 
 	matrix.reserve(mRows);
-	for (unsigned int i = 0; i != mRows; ++i) {
+	for (unsigned int i = 0; i < mRows; ++i) {
 		matrix.push_back(B.matrix[i]);
 	}
 }
 
 Matrix& Matrix::operator=(const Matrix& B) {
 	// Todo: Should be possible to execute if A and B have different sizes!  
-	for (unsigned int i = 0; i != mRows; ++i) {
-		for (unsigned int j = 0; j != mCols; ++j) {
-			matrix[i][j] = B.matrix[i][j];
+	for (unsigned int i = 0; i < this->mRows; ++i) {
+		for (unsigned int j = 0; j < this->mCols; ++j) {
+			this->matrix[i][j] = B.matrix[i][j];
 		}
 	}
 	return *this;
@@ -43,14 +43,14 @@ Matrix& Matrix::operator=(const Matrix& B) {
 
 Matrix& Matrix::operator+=(const Matrix& B) {
 	// Todo: Check if A and B are of same size, if not return error!
-	if (((*this).getRows() != B.getRows()) && ((*this).getCols() != B.getCols())) {
+	if ((this->mRows != B.getRows()) && (this->mCols != B.getCols()) ) {
 		cout << "ERROR! Matrices must have the same size!\n";
 		cout << "Exiting program... \n\n";
 		exit(EXIT_FAILURE);
 	}
-	for (unsigned int i = 0; i != mRows; ++i) {
-		for (unsigned int j = 0; j != mCols; ++j) {
-			matrix[i][j] += B.matrix[i][j];
+	for (unsigned int i = 0; i < this->mRows; ++i) {
+		for (unsigned int j = 0; j < this->mCols; ++j) {
+			this->matrix[i][j] += B.matrix[i][j];
 		}
 	}
 	return *this;
@@ -64,32 +64,32 @@ Matrix& Matrix::operator*=(const Matrix& B) {
 	}
 	double temp;
 	vector<double> matrixRow;
-	for (unsigned int i = 0; i != mRows; ++i) {
+	for (unsigned int i = 0; i < this->mRows; ++i) {
 		matrixRow = matrix[i];
-		for (unsigned int j = 0; j != B.mCols; ++j) {
+		for (unsigned int j = 0; j < B.getCols(); ++j) {
 			temp = 0.0;
-			for (unsigned int k = 0; k != mRows; ++k) {
+			for (unsigned int k = 0; k < this->mRows; ++k) {
 				temp += matrixRow[k] * B.matrix[k][j];
 				//temp += matrix[i][k] * B.matrix[k][i];
 			}
-			matrix[i][j] = temp;
+			this->matrix[i][j] = temp;
 		}
 	}
 	return *this;
 }
 
 Matrix& Matrix::operator*=(const double x) {
-	for (unsigned int i = 0; i != mRows; ++i) {
-		for (unsigned int j = 0; j != mCols; ++j) {
-			matrix[i][j] = x * matrix[i][j];
+	for (unsigned int i = 0; i < this->mRows; ++i) {
+		for (unsigned int j = 0; j < this->mCols; ++j) {
+			this->matrix[i][j] = x * this->matrix[i][j];
 		}
 	}
 	return *this;	
 }
 
 Matrix& Matrix::operator*(double x) {
-	for (unsigned int i = 0; i != mRows; ++i) {
-		for (unsigned int j = 0; j != mCols; ++j) {
+	for (unsigned int i = 0; i < this->mRows; ++i) {
+		for (unsigned int j = 0; j < this->mCols; ++j) {
 			this->matrix[i][j] = x * this->matrix[i][j];
 		}
 	}
@@ -98,8 +98,8 @@ Matrix& Matrix::operator*(double x) {
 
 double Matrix::normFrobenius() {
 	double result = 0.0;
-	for (unsigned int i = 0; i != this->mRows; ++i) {
-		for (unsigned int j = 0; j != this->mRows; ++j) {
+	for (unsigned int i = 0; i < this->mRows; ++i) {
+		for (unsigned int j = 0; j < this->mRows; ++j) {
 			result += (abs(this->matrix[i][j]) * abs(this->matrix[i][j]) );
 		}
 	}
@@ -108,9 +108,9 @@ double Matrix::normFrobenius() {
 
 void Matrix::printMatrix() const {
 	cout << "Matrix: " << endl;
-	for (unsigned int i = 0; i != mRows; ++i) {
-		for (unsigned int j = 0; j != mCols; ++j) {
-			cout << matrix[i][j] << " ";
+	for (unsigned int i = 0; i < this->mRows; ++i) {
+		for (unsigned int j = 0; j < this->mCols; ++j) {
+			cout << this->matrix[i][j] << " ";
 		}
 		cout << "\n";
 	}	
@@ -118,20 +118,20 @@ void Matrix::printMatrix() const {
 }
 
 void Matrix::fillMatrix(double x) {
-	for (unsigned int i = 0; i != mRows; ++i) {
-		for (unsigned int j = 0; j != mCols; ++j) {
-			matrix[i][j] = x;
+	for (unsigned int i = 0; i < this->mRows; ++i) {
+		for (unsigned int j = 0; j < this->mCols; ++j) {
+			this->matrix[i][j] = x;
 		}
 	}
 }
 
 void Matrix::identity() {
-	for (unsigned int i = 0; i != mRows; ++i) {
-		for (unsigned int j = 0; j != mCols; ++j) {
+	for (unsigned int i = 0; i < this->mRows; ++i) {
+		for (unsigned int j = 0; j < this->mCols; ++j) {
 			if (i == j) {
-				matrix[i][j] = 1.0;	
+				this->matrix[i][j] = 1.0;	
 			} else {
-				matrix[i][j] = 0.0;
+				this->matrix[i][j] = 0.0;
 			}
 		}
 	}
@@ -139,11 +139,11 @@ void Matrix::identity() {
 
 int main() {
 	cout << "Create matrix from own class" << endl;
-	unsigned int m = 3;
+	unsigned int m = 2;
 	Matrix A(m);
 	A.fillMatrix(1);
 	//A.identity();
-	A = A*(2);
+	//A = A*(2);
 	
 	Matrix B(m);
 	B.fillMatrix(3);
@@ -152,6 +152,7 @@ int main() {
 	cout << "matrix multiplication" << endl;
 	A *= B;
 	A.printMatrix();
+	//A.printMatrix();
 	/*
 	matrix *= B; // Matrix multiplication!
 	matrix.printMatrix();
@@ -160,8 +161,8 @@ int main() {
 	C.printMatrix();
 	*/
 	cout << "Matrix exponential from provided routine r8mat_lib: \n";
-	int n = 3;
-	double array[9] = {18.0, 18.0, 18.0, 18.0, 18.0, 18.0, 18.0, 18.0, 18.0};
+	int n = 2;
+	double array[9] = {1.0, 1.0, 1.0, 1.0};
 
 	cout << "L2-Norm of matrix: " << r8mat_norm_l2(n, n, array) << "\n";
 
