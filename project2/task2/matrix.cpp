@@ -1,5 +1,6 @@
 #include <iostream>
 #include <cmath>
+#include <stdlib.h> 
 
 #include "matrix.hpp"
 
@@ -50,10 +51,11 @@ Matrix& Matrix::operator+=(const Matrix& B) {
 }
 
 Matrix& Matrix::operator*=(const Matrix& B) {
-	// TODO: Throw error if mRows != B.mCols.
-	//if (mRows != B.mCols) {
-	//	cerr << "Number of rows in lhs matrix are not the same as number of columns in rhs matrix!";
-	//}
+	if (mRows != B.mCols) {
+		cout << "ERROR! Number of rows in lhs matrix are not the same as number of columns in rhs matrix!\n";
+		cout << "Exiting program... \n\n";
+		exit(EXIT_FAILURE);
+	}
 	double temp;
 	vector<double> matrixRow;
 	for (unsigned int i = 0; i != mRows; ++i) {
@@ -87,43 +89,7 @@ Matrix& Matrix::operator*(double x) {
 	}
 	return *this;	
 }
-/*
-Matrix Matrix::operator*(Matrix& B) {
-	Matrix result(this->mRows);
-	double temp;
-	vector<double> matrixRow;
-	for (unsigned int i = 0; i != mRows; ++i) {
-		matrixRow = this->matrix[i];
-		for (unsigned int j = 0; j != B.mCols; ++j) {
-			temp = 0.0;
-			for (unsigned int k = 0; k != mRows; ++k) {
-				temp += matrixRow[k] * B.matrix[k][j];
-				//temp += matrix[i][k] * B.matrix[k][i];
-			}
-			result.matrix[i][j] = temp;
-		}
-	}
-	return result;
-}
 
-Matrix Matrix::transpose() {
-	Matrix transposed(this->mRows);
-	for (unsigned int i = 0; i != mRows; ++i) {
-		for (unsigned int j = 0; j != mCols; ++j) {
-			transposed.matrix[j][i] = this->matrix[i][j];
-		}
-	}
-	return transposed;
-}
-
-double Matrix::trace() {
-	double trace = 0.0;
-	for (unsigned int i = 0; i != this->mRows; ++i) {
-		trace += this->matrix[i][i];
-	}
-	return trace;
-}
-*/
 double Matrix::normFrobenius() {
 	double result = 0.0;
 	for (unsigned int i = 0; i != this->mRows; ++i) {
@@ -131,13 +97,6 @@ double Matrix::normFrobenius() {
 			result += (abs(this->matrix[i][j]) * abs(this->matrix[i][j]) );
 		}
 	}
-	/*
-	double trace = 0.0;
-	Matrix trA = (*this).transpose();
-	trA.printMatrix();
-	Matrix trAA = trA * (*this);
-	trAA.printMatrix();
-	*/
 	return result;
 }
 
@@ -181,7 +140,7 @@ Matrix Matrix::matrixExponential(double t, double tol) {
 	Matrix temp = result;
 	result.printMatrix();
 
-	t1 = abs(t);
+	//t1 = abs(t); // Don't think you need abs in matrix exponential. Simply compute the power series
 	pre = 0.0;
 	while (abs(result.normFrobenius() - pre) > tol) {
 		++niter;
@@ -190,16 +149,11 @@ Matrix Matrix::matrixExponential(double t, double tol) {
 			return result;
 		}
 		pre = result.normFrobenius();
-		cout << "previous norm: " << pre << endl;
+		//cout << "previous norm: " << pre << endl;
 		temp *= (*this);  
-		temp = temp * (t1/niter);
+		temp = temp * (t/niter);
 		result += temp;
 	}
-	/*
-	if (t < 0) {
-		return 1/sum;
-	} */
-
 	return result; 
 }
 
@@ -209,12 +163,16 @@ int main() {
 	Matrix A(m);
 	A.fillMatrix(1);
 	//A.identity();
-	/*
+	A = A*(2);
+	
 	Matrix B(m);
 	B.fillMatrix(3);
-	matrix.printMatrix();
+	A.printMatrix();
 	B.printMatrix();
-
+	cout << "matrix multiplication" << endl;
+	A *= B;
+	A.printMatrix();
+	/*
 	matrix *= B; // Matrix multiplication!
 	matrix.printMatrix();
 
@@ -223,7 +181,7 @@ int main() {
 	*/
 	cout << "Matrix exponential from provided routine r8mat_lib: \n";
 	int n = 3;
-	double array[9] = {1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0};
+	double array[9] = {18.0, 18.0, 18.0, 18.0, 18.0, 18.0, 18.0, 18.0, 18.0};
 
 	cout << "L2-Norm of matrix: " << r8mat_norm_l2(n, n, array) << "\n";
 
