@@ -3,6 +3,7 @@
 #include <stdlib.h> 
 
 #include "matrix.hpp"
+#include "myMatrixExponential.hpp"
 
 using namespace std;
 
@@ -42,6 +43,11 @@ Matrix& Matrix::operator=(const Matrix& B) {
 
 Matrix& Matrix::operator+=(const Matrix& B) {
 	// Todo: Check if A and B are of same size, if not return error!
+	if (((*this).getRows() != B.getRows()) && ((*this).getCols() != B.getCols())) {
+		cout << "ERROR! Matrices must have the same size!\n";
+		cout << "Exiting program... \n\n";
+		exit(EXIT_FAILURE);
+	}
 	for (unsigned int i = 0; i != mRows; ++i) {
 		for (unsigned int j = 0; j != mCols; ++j) {
 			matrix[i][j] += B.matrix[i][j];
@@ -51,7 +57,7 @@ Matrix& Matrix::operator+=(const Matrix& B) {
 }
 
 Matrix& Matrix::operator*=(const Matrix& B) {
-	if (mRows != B.mCols) {
+	if ((*this).getRows() != B.getCols()) {
 		cout << "ERROR! Number of rows in lhs matrix are not the same as number of columns in rhs matrix!\n";
 		cout << "Exiting program... \n\n";
 		exit(EXIT_FAILURE);
@@ -131,32 +137,6 @@ void Matrix::identity() {
 	}
 }
 
-Matrix Matrix::matrixExponential(double t, double tol) {
-	int niter = 0;
-	double t1, pre;
-	// Create identity matrix as result for k = 0
-	Matrix result(this->mRows);
-	result.identity();
-	Matrix temp = result;
-	result.printMatrix();
-
-	//t1 = abs(t); // Don't think you need abs in matrix exponential. Simply compute the power series
-	pre = 0.0;
-	while (abs(result.normFrobenius() - pre) > tol) {
-		++niter;
-		if (niter > 1000) {
-			cout << "No convergence! Returning current matrix exponential..." << endl;
-			return result;
-		}
-		pre = result.normFrobenius();
-		//cout << "previous norm: " << pre << endl;
-		temp *= (*this);  
-		temp = temp * (t/niter);
-		result += temp;
-	}
-	return result; 
-}
-
 int main() {
 	cout << "Create matrix from own class" << endl;
 	unsigned int m = 3;
@@ -188,7 +168,10 @@ int main() {
 	double* result = r8mat_expm1(n, array);
 	r8mat_print(n, n, result, "Cool matrix");
 
-	Matrix expA = A.matrixExponential();
+	//Matrix expA = A.matrixExponential();
+	//expA.printMatrix();
+
+	Matrix expA = myMatrixExponential(A, 1.0);
 	expA.printMatrix();
 
 	//cout << "Frobenius norm: \n";
