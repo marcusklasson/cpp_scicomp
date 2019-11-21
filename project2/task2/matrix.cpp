@@ -75,7 +75,6 @@ Matrix& Matrix::operator=(const Matrix& B) {
 }
 
 Matrix& Matrix::operator+=(const Matrix& B) {
-	// Todo: Check if A and B are of same size, if not return error!
 	if ((this->mRows != B.getRows()) && (this->mCols != B.getCols()) ) {
 		cout << "ERROR! Matrices must have the same size!\n";
 		cout << "Exiting program... \n\n";
@@ -169,56 +168,4 @@ void Matrix::identity() {
 			}
 		}
 	}
-}
-
-int main() {
-	cout << "Create matrix from own class" << endl;
-	unsigned int m = 2;
-	Matrix A(m);
-	A.fillMatrix(1);
-
-	Matrix expA = myMatrixExponential(A, 1.0);
-	expA.printMatrix();
-	//A.identity();
-	//A = A*(2);
-	
-	Matrix B(m);
-	B.fillMatrix(3);
-	A.printMatrix();
-	B.printMatrix();
-	cout << "matrix multiplication" << endl;
-	A *= B;
-	A.printMatrix();
-	//A.printMatrix();
-	/*
-	matrix *= B; // Matrix multiplication!
-	matrix.printMatrix();
-
-	Matrix C(B);
-	C.printMatrix();
-	*/
-	cout << "Matrix exponential from provided routine r8mat_lib: \n";
-	int n = 2;
-	double array[4] = {1.0, 0.0, 0.0, 1.0};
-
-	cout << "L2-Norm of matrix: " << r8mat_norm_l2(n, n, array) << "\n";
-
-	double* result = r8mat_expm1(n, array);
-	r8mat_print(n, n, result, "Cool matrix");
-
-	//Matrix expA = A.matrixExponential();
-	//expA.printMatrix();
-
-	expA = myMatrixExponential(A, 1.0);
-	expA.printMatrix();
-
-	//cout << "Frobenius norm: \n";
-	//double norm = I.normFrobenius();
-
-	Matrix D("matrix_files/matrix1.txt");
-	D.printMatrix();
-	Matrix expD = myMatrixExponential(D, 1.0);
-	expD.printMatrix();	
-
-	return 0;
 }
