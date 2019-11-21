@@ -41,11 +41,13 @@ public:
 	void fillMatrix(double x=0.0);	
 
 	// New member functions
+	//double operator[](unsigned int row, unsigned int col) const {return this->matrix[row][col]};
 	unsigned int getRows() const {return this->mRows;}
 	unsigned int getCols() const {return this->mCols;}
 	void identity(); // Do I need rthis one?
 	Matrix& operator*(double);
 	double normFrobenius(); // should it be const here????
+	Matrix(const char *);
 
 };
 

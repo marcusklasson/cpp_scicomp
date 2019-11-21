@@ -1,4 +1,7 @@
 #include <iostream>
+#include <fstream>
+#include <sstream>
+#include <string>
 #include <cmath>
 #include <stdlib.h> 
 
@@ -28,6 +31,36 @@ Matrix::Matrix(const Matrix& B) {
 	matrix.reserve(mRows);
 	for (unsigned int i = 0; i < mRows; ++i) {
 		matrix.push_back(B.matrix[i]);
+	}
+}
+
+Matrix::Matrix(const char* filename) {
+	ifstream infile(filename);
+
+	if (infile) {
+		string line;
+		double value;
+
+		while (getline(infile, line)) {
+			this->matrix.push_back(vector<double>());
+			stringstream split(line);
+			
+			while (split >> value) {
+				this->matrix.back().push_back(value);
+			}	
+		}
+		
+		mRows = this->matrix.size(); // get rows
+		mCols = this->matrix[0].size(); // get columns
+
+		// Print matrix
+		cout << "Print matrix from file: \n" << endl;
+		for (unsigned int i = 0; i < mRows; ++i) {
+			for (unsigned int j = 0; j < mCols; ++j) {
+				cout << this->matrix[i][j] << ' ';
+			}
+		}
+		cout << '\n';
 	}
 }
 
@@ -166,7 +199,7 @@ int main() {
 	*/
 	cout << "Matrix exponential from provided routine r8mat_lib: \n";
 	int n = 2;
-	double array[4] = {1.0, 1.0, 1.0, 1.0};
+	double array[4] = {1.0, 0.0, 0.0, 1.0};
 
 	cout << "L2-Norm of matrix: " << r8mat_norm_l2(n, n, array) << "\n";
 
@@ -181,6 +214,11 @@ int main() {
 
 	//cout << "Frobenius norm: \n";
 	//double norm = I.normFrobenius();
+
+	Matrix D("matrix_files/matrix1.txt");
+	D.printMatrix();
+	Matrix expD = myMatrixExponential(D, 1.0);
+	expD.printMatrix();	
 
 	return 0;
 }
