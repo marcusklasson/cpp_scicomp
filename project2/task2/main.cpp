@@ -13,7 +13,7 @@ using namespace std;
 #include "r8lib.h" // has to be included after namespace std
 #include "r8mat_expm1.h" 
 
-double* createMatrixAsArray(const char* filename) {
+double* createMatrixAsArray(const string& filename) {
 	ifstream infile(filename);
 	double* array;
 
@@ -56,7 +56,26 @@ double* createMatrixAsArray(const char* filename) {
 	return array;
 }
 
-int main() {
+int main(int argc, char** argv) {
+
+	cout << "Number of arguments: " << argc << "\narguments:\n";
+	for (int i = 0; i < argc; ++i) {
+		cout << argv[i] << '\n';
+	}
+
+	Matrix A(argv[1]);
+	A.printMatrix();
+	Matrix expA = myMatrixExponential(A, 1.0);
+	expA.printMatrix();
+
+	Matrix B(argv[2]);
+	A = B;
+
+	double* array = createMatrixAsArray(argv[1]);
+	double* result = r8mat_expm1(2, array);
+	r8mat_print(2, 2, result, "r8mat matrix: ");
+	//A.printMatrix();
+	/*
 	cout << "Create matrix from own class" << endl;
 	unsigned int m = 2;
 	Matrix A(m);
@@ -99,5 +118,10 @@ int main() {
 	//double norm = I.normFrobenius();
 
 	delete [] array; 
+	*/
+	delete [] array; 
+	delete [] result; 
+
 	return 0;
+
 }
