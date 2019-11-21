@@ -103,6 +103,7 @@ double Matrix::normFrobenius() {
 			result += (abs(this->matrix[i][j]) * abs(this->matrix[i][j]) );
 		}
 	}
+	result = sqrt(result);
 	return result;
 }
 
@@ -142,6 +143,9 @@ int main() {
 	unsigned int m = 2;
 	Matrix A(m);
 	A.fillMatrix(1);
+
+	Matrix expA = myMatrixExponential(A, 1.0);
+	expA.printMatrix();
 	//A.identity();
 	//A = A*(2);
 	
@@ -162,7 +166,7 @@ int main() {
 	*/
 	cout << "Matrix exponential from provided routine r8mat_lib: \n";
 	int n = 2;
-	double array[9] = {1.0, 1.0, 1.0, 1.0};
+	double array[4] = {1.0, 1.0, 1.0, 1.0};
 
 	cout << "L2-Norm of matrix: " << r8mat_norm_l2(n, n, array) << "\n";
 
@@ -172,7 +176,7 @@ int main() {
 	//Matrix expA = A.matrixExponential();
 	//expA.printMatrix();
 
-	Matrix expA = myMatrixExponential(A, 1.0);
+	expA = myMatrixExponential(A, 1.0);
 	expA.printMatrix();
 
 	//cout << "Frobenius norm: \n";
