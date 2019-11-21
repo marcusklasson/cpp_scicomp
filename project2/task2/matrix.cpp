@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <iomanip>
 #include <string>
 #include <cmath>
 #include <stdlib.h> 
@@ -34,7 +35,8 @@ Matrix::Matrix(const Matrix& B) {
 	}
 }
 
-Matrix::Matrix(const char* filename) {
+//Matrix::Matrix(const char* filename) {
+Matrix::Matrix(const string& filename) {
 	ifstream infile(filename);
 
 	if (infile) {
@@ -53,6 +55,7 @@ Matrix::Matrix(const char* filename) {
 		mRows = this->matrix.size(); // get rows
 		mCols = this->matrix[0].size(); // get columns
 
+		/*
 		// Print matrix
 		cout << "Print matrix from file: \n" << endl;
 		for (unsigned int i = 0; i < mRows; ++i) {
@@ -61,6 +64,7 @@ Matrix::Matrix(const char* filename) {
 			}
 		}
 		cout << '\n';
+		*/
 	}
 }
 
@@ -140,10 +144,19 @@ double Matrix::normFrobenius() {
 }
 
 void Matrix::printMatrix() const {
-	cout << "Matrix: " << endl;
+	cout << "Print matrix: \n" << endl;
+	/*
+	cout << right << setw(5) << "Col:";
+	for (int i = 0; i < this->mCols; ++i) {
+		cout << setw(10) << i;
+	}
+	cout << "\n";
+	*/
+	//cout << right << setw(5) << "Row\n";
 	for (unsigned int i = 0; i < this->mRows; ++i) {
+		//cout << right << setw(5) << i << ":";
 		for (unsigned int j = 0; j < this->mCols; ++j) {
-			cout << this->matrix[i][j] << " ";
+			cout << right << setw(10) << this->matrix[i][j];
 		}
 		cout << "\n";
 	}	

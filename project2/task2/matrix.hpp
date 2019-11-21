@@ -1,6 +1,7 @@
 #ifndef MATRIX_HPP
 #define MATRIX_HPP
 
+#include <string>
 #include <vector>
 
 class Matrix {
@@ -15,22 +16,6 @@ public:
 	Matrix(const Matrix &); // Copy constructor. 
 	//~Matrix(); // Do I need a destructor?
 
-	// from blog post
-	/*
-	Matrix operator+(const Matrix&);
-	Matrix operator-(const Matrix&);
-	Matrix operator*(const Matrix&);
-	//Matrix transpose();
-	Matrix operator+(double);
-	Matrix operator-(double);
-	//Matrix operator*(double);
-	Matrix operator/(double);
-	
-	//double& operator[](unsigned&, unsigned&);
-	unsigned int getRows() const;
-	unsigned int getCols() const; 
-	*/
-
 	// From assignment sheet
 	Matrix& operator=(const Matrix&);
 	Matrix& operator+=(const Matrix&);
@@ -41,13 +26,12 @@ public:
 	void fillMatrix(double x=0.0);	
 
 	// New member functions
-	//double operator[](unsigned int row, unsigned int col) const {return this->matrix[row][col]};
 	unsigned int getRows() const {return this->mRows;}
 	unsigned int getCols() const {return this->mCols;}
 	void identity(); // Do I need rthis one?
 	Matrix& operator*(double);
 	double normFrobenius(); // should it be const here????
-	Matrix(const char *);
+	Matrix(const std::string &);
 
 };
 
