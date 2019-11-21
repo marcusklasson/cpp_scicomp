@@ -56,69 +56,67 @@ double* createMatrixAsArray(const string& filename) {
 	return array;
 }
 
-int main(int argc, char** argv) {
+int main(int argc, char* argv[]) {
 
-	cout << "Number of arguments: " << argc << "\narguments:\n";
-	for (int i = 0; i < argc; ++i) {
-		cout << argv[i] << '\n';
+	if (argc < 2) {
+		cout << "Error! Argument with file containing matrix is missing. Exiting...\n" << endl;;
+		exit(EXIT_FAILURE);
 	}
 
+	double* array;
+	double* result;
+	int m;
+
+	cout << "\n" << argv[1] << "\n";
+	Matrix A(argv[1]);
+	A.printMatrix();
+	Matrix expA = myMatrixExponential(A);
+	cout << "Matrix exponential " << endl;
+	expA.printMatrix();
+
+	m = A.getRows();
+	array = createMatrixAsArray(argv[1]);
+	result = r8mat_expm1(m, array);
+	r8mat_print(m, m, result, "r8mat matrix exponential: ");
+
+	/*
+	cout << argv[1] << '\n';
 	Matrix A(argv[1]);
 	A.printMatrix();
 	Matrix expA = myMatrixExponential(A, 1.0);
+	cout << "Matrix exponential " << endl;
 	expA.printMatrix();
 
-	Matrix B(argv[2]);
-	A = B;
-
-	double* array = createMatrixAsArray(argv[1]);
-	double* result = r8mat_expm1(2, array);
-	r8mat_print(2, 2, result, "r8mat matrix: ");
-	//A.printMatrix();
-	/*
-	cout << "Create matrix from own class" << endl;
-	unsigned int m = 2;
-	Matrix A(m);
-	A.fillMatrix(1);
-
-	Matrix expA = myMatrixExponential(A, 1.0);
-	expA.printMatrix();
-	//A.identity();
-	//A = A*(2);
+	m = A.getRows();
+	array = createMatrixAsArray(argv[1]);
+	result = r8mat_expm1(m, array);
+	r8mat_print(m, m, result, "r8mat matrix exponential: ");
 	
-	Matrix B(m);
-	B.fillMatrix(3);
-	A.printMatrix();
+	cout << argv[2] << '\n';
+	Matrix B(argv[2]);
 	B.printMatrix();
-	cout << "matrix multiplication" << endl;
-	A *= B;
-	A.printMatrix();
-	//A.printMatrix();
+	Matrix expB = myMatrixExponential(B, 1.0);
+	cout << "Matrix exponential " << endl;
+	expB.printMatrix();
 
-	Matrix D("matrix_files/matrix2.txt");
-	D.printMatrix();
-	Matrix expD = myMatrixExponential(D);
-	expD.printMatrix();	
+	m = B.getRows();
+	array = createMatrixAsArray(argv[2]);
+	result = r8mat_expm1(m, array);
+	r8mat_print(m, m, result, "r8mat matrix exponential: ");
 
-	int n = D.getRows();
-	double* array = createMatrixAsArray("matrix_files/matrix2.txt");
+	cout << argv[3] << '\n';
+	Matrix C(argv[3]);
+	C.printMatrix();
+	Matrix expC = myMatrixExponential(C, 1.0);
+	cout << "Matrix exponential " << endl;
+	expC.printMatrix();
 
-	cout << "L2-Norm of matrix: " << r8mat_norm_l2(n, n, array) << "\n";
-
-	double* result = r8mat_expm1(n, array);
-	r8mat_print(n, n, result, "Cool matrix");
-
-	//Matrix expA = A.matrixExponential();
-	//expA.printMatrix();
-
-	//expA = myMatrixExponential(A, 1.0);
-	//expA.printMatrix();
-
-	//cout << "Frobenius norm: \n";
-	//double norm = I.normFrobenius();
-
-	delete [] array; 
+	m = C.getRows();
+	array = createMatrixAsArray(argv[3]);
+	result = r8mat_expm1(m, array);
+	r8mat_print(m, m, result, "r8mat matrix exponential: ");
 	*/
+
 	delete [] array; 
 	delete [] result; 
 
