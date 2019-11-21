@@ -31,7 +31,7 @@ public:
 	void identity(); // Do I need rthis one?
 	Matrix& operator*(double);
 	double normFrobenius(); // should it be const here????
-	Matrix(const std::string &);
+	Matrix(const std::string&);
 
 };
 

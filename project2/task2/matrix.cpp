@@ -156,7 +156,7 @@ void Matrix::printMatrix() const {
 	for (unsigned int i = 0; i < this->mRows; ++i) {
 		//cout << right << setw(5) << i << ":";
 		for (unsigned int j = 0; j < this->mCols; ++j) {
-			cout << right << setw(10) << this->matrix[i][j];
+			cout << right << setw(14) << this->matrix[i][j];
 		}
 		cout << "\n";
 	}	
