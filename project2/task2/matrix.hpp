@@ -28,7 +28,7 @@ public:
 	// New member functions
 	unsigned int getRows() const {return this->mRows;}
 	unsigned int getCols() const {return this->mCols;}
-	void identity(); // Do I need rthis one?
+	void identity();
 	Matrix& operator*(double);
 	double normFrobenius(); // should it be const here????
 	Matrix(const std::string&);

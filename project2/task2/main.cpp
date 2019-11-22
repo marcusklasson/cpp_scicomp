@@ -79,44 +79,6 @@ int main(int argc, char* argv[]) {
 	result = r8mat_expm1(m, array);
 	r8mat_print(m, m, result, "r8mat matrix exponential: ");
 
-	/*
-	cout << argv[1] << '\n';
-	Matrix A(argv[1]);
-	A.printMatrix();
-	Matrix expA = myMatrixExponential(A, 1.0);
-	cout << "Matrix exponential " << endl;
-	expA.printMatrix();
-
-	m = A.getRows();
-	array = createMatrixAsArray(argv[1]);
-	result = r8mat_expm1(m, array);
-	r8mat_print(m, m, result, "r8mat matrix exponential: ");
-	
-	cout << argv[2] << '\n';
-	Matrix B(argv[2]);
-	B.printMatrix();
-	Matrix expB = myMatrixExponential(B, 1.0);
-	cout << "Matrix exponential " << endl;
-	expB.printMatrix();
-
-	m = B.getRows();
-	array = createMatrixAsArray(argv[2]);
-	result = r8mat_expm1(m, array);
-	r8mat_print(m, m, result, "r8mat matrix exponential: ");
-
-	cout << argv[3] << '\n';
-	Matrix C(argv[3]);
-	C.printMatrix();
-	Matrix expC = myMatrixExponential(C, 1.0);
-	cout << "Matrix exponential " << endl;
-	expC.printMatrix();
-
-	m = C.getRows();
-	array = createMatrixAsArray(argv[3]);
-	result = r8mat_expm1(m, array);
-	r8mat_print(m, m, result, "r8mat matrix exponential: ");
-	*/
-
 	delete [] array; 
 	delete [] result; 
 

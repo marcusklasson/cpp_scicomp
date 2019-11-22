@@ -54,17 +54,6 @@ Matrix::Matrix(const string& filename) {
 		
 		mRows = this->matrix.size(); // get rows
 		mCols = this->matrix[0].size(); // get columns
-
-		/*
-		// Print matrix
-		cout << "Print matrix from file: \n" << endl;
-		for (unsigned int i = 0; i < mRows; ++i) {
-			for (unsigned int j = 0; j < mCols; ++j) {
-				cout << this->matrix[i][j] << ' ';
-			}
-		}
-		cout << '\n';
-		*/
 	}
 }
 
@@ -106,7 +95,6 @@ Matrix& Matrix::operator*=(const Matrix& B) {
 			temp = 0.0;
 			for (unsigned int k = 0; k < this->mRows; ++k) {
 				temp += matrixRow[k] * B.matrix[k][j];
-				//temp += matrix[i][k] * B.matrix[k][i];
 			}
 			this->matrix[i][j] = temp;
 		}
@@ -145,16 +133,7 @@ double Matrix::normFrobenius() {
 
 void Matrix::printMatrix() const {
 	cout << "Print matrix: \n" << endl;
-	/*
-	cout << right << setw(5) << "Col:";
-	for (int i = 0; i < this->mCols; ++i) {
-		cout << setw(10) << i;
-	}
-	cout << "\n";
-	*/
-	//cout << right << setw(5) << "Row\n";
 	for (unsigned int i = 0; i < this->mRows; ++i) {
-		//cout << right << setw(5) << i << ":";
 		for (unsigned int j = 0; j < this->mCols; ++j) {
 			cout << right << setw(14) << this->matrix[i][j];
 		}
