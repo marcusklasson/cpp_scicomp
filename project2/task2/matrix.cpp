@@ -35,7 +35,6 @@ Matrix::Matrix(const Matrix& B) {
 	}
 }
 
-//Matrix::Matrix(const char* filename) {
 Matrix::Matrix(const string& filename) {
 	ifstream infile(filename);
 
@@ -57,8 +56,7 @@ Matrix::Matrix(const string& filename) {
 	}
 }
 
-Matrix& Matrix::operator=(const Matrix& B) {
-	// Todo: Should be possible to execute if A and B have different sizes!  
+Matrix& Matrix::operator=(const Matrix& B) { 
 	for (unsigned int i = 0; i < this->mRows; ++i) {
 		for (unsigned int j = 0; j < this->mCols; ++j) {
 			this->matrix[i][j] = B.matrix[i][j];
@@ -111,15 +109,6 @@ Matrix& Matrix::operator*=(const double x) {
 	return *this;	
 }
 
-Matrix& Matrix::operator*(double x) {
-	for (unsigned int i = 0; i < this->mRows; ++i) {
-		for (unsigned int j = 0; j < this->mCols; ++j) {
-			this->matrix[i][j] = x * this->matrix[i][j];
-		}
-	}
-	return *this;	
-}
-
 double Matrix::normFrobenius() {
 	double result = 0.0;
 	for (unsigned int i = 0; i < this->mRows; ++i) {
@@ -150,7 +139,7 @@ void Matrix::fillMatrix(double x) {
 	}
 }
 
-void Matrix::identity() {
+void Matrix::setMatrixToIdentity() {
 	for (unsigned int i = 0; i < this->mRows; ++i) {
 		for (unsigned int j = 0; j < this->mCols; ++j) {
 			if (i == j) {

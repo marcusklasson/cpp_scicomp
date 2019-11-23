@@ -13,24 +13,21 @@ private:
 
 public:
 	Matrix(unsigned int m);
-	Matrix(const Matrix &); // Copy constructor. 
-	//~Matrix(); // Do I need a destructor?
+	Matrix(const Matrix &); 
 
 	// From assignment sheet
 	Matrix& operator=(const Matrix&);
 	Matrix& operator+=(const Matrix&);
 	Matrix& operator*=(const Matrix&);
 	Matrix& operator*=(const double);
-	double norm() const;
 	void printMatrix() const;
 	void fillMatrix(double x=0.0);	
 
 	// New member functions
 	unsigned int getRows() const {return this->mRows;}
 	unsigned int getCols() const {return this->mCols;}
-	void identity();
-	Matrix& operator*(double);
-	double normFrobenius(); // should it be const here????
+	void setMatrixToIdentity();
+	double normFrobenius(); 
 	Matrix(const std::string&);
 
 };
