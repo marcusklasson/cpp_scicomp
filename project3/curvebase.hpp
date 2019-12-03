@@ -16,6 +16,7 @@ protected:
 	double integrate(double p); //arc length integral
 
 public:
+	//Curvebase(); //constructor
 	Curvebase(); //constructor
 	double x(double s); //arc length parametrization
 	double y(double s); //arc length parametrization
