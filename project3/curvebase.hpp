@@ -4,8 +4,8 @@
 class Curvebase {
 
 protected:
-	double pmin; // minimal value for p
-	double pmax; // maximal value for p
+	double a; //pmin; // minimal value for p
+	double b; //pmax; // maximal value for p
 	bool rev; // orientation of the curve
 	double length;
 
@@ -13,10 +13,15 @@ protected:
 	virtual double yp(double p) = 0;
 	virtual double dxp(double p) = 0;
 	virtual double dyp(double p) = 0;
-	double integrate(double p); //arc length integral
+
+	//double integrate(double p); //arc length integral
+	double integrate(double a, double b); //arc length integral
+	double newtonMethod(double p0, double s); // Newton solver
+	double simpsonRule(double a, double b);
+	double dL(double p); // integrand of arc length
+
 
 public:
-	//Curvebase(); //constructor
 	Curvebase(); //constructor
 	double x(double s); //arc length parametrization
 	double y(double s); //arc length parametrization
