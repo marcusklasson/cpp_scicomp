@@ -5,7 +5,7 @@
 
 class XLine : public Curvebase {
 
-private:
+protected:
 	double yConst;
 
 	double xp(double p);

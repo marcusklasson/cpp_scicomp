@@ -12,7 +12,7 @@ double YLine::x(double s) {
 	return xConst;
 }
 
-double Yline::y(double s) {
+double YLine::y(double s) {
 	if (s > 1.0) {
 		return b;
 	}

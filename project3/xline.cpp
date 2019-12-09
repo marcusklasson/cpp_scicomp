@@ -15,7 +15,7 @@ double XLine::x(double s) {
 	return a + s*length;
 }
 
-double Xline::y(double s) {
+double XLine::y(double s) {
 	return yConst;
 }
 
