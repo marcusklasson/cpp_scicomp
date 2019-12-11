@@ -21,8 +21,11 @@ public:
 	//Domain& operator=(Domain&);
 	~Domain();
 
-	void generateGrid(int m, int n);
+	// generateGrid() actually generates a grid with n+1 and m+1 points. 
+	// Maybe it should be that way, like in linspace() you always need n+1 to get the end point
+	void generateGrid(int n, int m); 
 	void print();
+	void write();
 	
 };
 
