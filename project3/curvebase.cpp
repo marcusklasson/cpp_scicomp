@@ -25,7 +25,7 @@ double Curvebase::integrate(double a, double b) {
 	 * level and sum all the computed integrals on these 
 	 * partitions of the interval.
 	 */
-	cout << "In integration... "<< endl;
+	//cout << "In integration... "<< endl;
 	double I = 0.0, I1, I2, errest;
 	double tol = 1e-6;
 	int node = 1;
@@ -89,7 +89,7 @@ double Curvebase::x(double s) {
 	double p, p0;
 	p0 = a + s * length; // initial guess for newton's method
 	p = newtonMethod(p0, s);
-	cout << "From newtons method p = " << p << endl;
+	//cout << "From newtons method p = " << p << endl;
 	return xp(p);
 }
 

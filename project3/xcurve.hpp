@@ -10,12 +10,9 @@ private:
 	double yp(double p);
 	double dxp(double p);
 	double dyp(double p);
-	//double integrate(double a, double b);
 
 public: 
 	XCurve(double a0, double b0);
-	//double x(double s);
-	//double y(double s);
 };
 
 #endif

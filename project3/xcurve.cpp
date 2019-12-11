@@ -22,12 +22,13 @@ double XCurve::xp(double p) {
 }
 
 double XCurve::yp(double p) {
-	if (x < -3 && x >= -10) {
+	if ((p < -3) && (p >= -10)) {
 		return 0.5 / (1 + exp(-3 * (p + 6)));
 	}
-	if (x =< 5 && x >= -3) {
+	if ((p <= 5) && (p >= -3)) {
 		return 0.5 / (1 + exp(3 * p));
 	}
+	return p;
 }
 
 double XCurve::dxp(double p) {
@@ -35,10 +36,11 @@ double XCurve::dxp(double p) {
 }
 
 double XCurve::dyp(double p) {
-	if (x < -3 && x >= -10) {
+	if ((p < -3) && (p >= -10)) {
 		return 1.5 * (exp(-3*(p + 6))) / (1 + 2*exp(-3 * (p + 6)) + exp(-6 * (p + 6)));
 	}
-	if (x =< 5 && x >= -3) {
+	if ((p <= 5) && (p >= -3)) {
 		return -1.5 * (exp(3 * p) / (1 + 2*exp(3 * p) + exp(6 * p)) );
 	}
+	return p;
 }
