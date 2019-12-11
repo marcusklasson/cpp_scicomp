@@ -10,12 +10,16 @@
 using namespace std;
 
 int main() {
-	XLine xline = XLine(-10, 5, 3); //upper horizontal line
-	YLine yline1 = YLine(0, 3, 5); // right vertical line
-	YLine yline2 = YLine(0, 3, -10); // left vertical line 
-	XCurve xcurve = XCurve(-10, 5);	// lower horizontal curve
+	XCurve s1 = XCurve(-10, 5);	// lower horizontal curve
+	YLine s2 = YLine(0, 3, 5); // right vertical line
+	XLine s3 = XLine(-10, 5, 3); //upper horizontal line
+	YLine s4 = YLine(0, 3, -10); // left vertical line 
 
-	Domain d = Domain(xline, yline1, xcurve, yline2);
+	Domain d = Domain(s1, s2, s3, s4);
+	d.generateGrid(5, 5);
+	d.print();
+	d.write();
+
 	//cout << "x(1) = " << xline.x(1) << endl;
 	//cout << "x(0.5) = " << xline.x(0.5) << endl;
 	//cout << "x(0) = " << xline.x(0) << endl;
