@@ -1,5 +1,6 @@
 #include <iostream>
-#include<cstdio>
+#include <cstdio>
+#include <cmath>
 
 #include "domain.hpp"
 
@@ -28,19 +29,23 @@ Domain::~Domain() {
 
 bool Domain::checkConsistency() {
 	// check for orientation of lines!
-	if ((sides[0]->x(1) != sides[1]->x(0)) && (sides[0]->y(1) != sides[1]->y(0))) {
+	if ( abs(sides[0]->x(1) - sides[1]->x(0)) > 1e-3 ||
+		 abs(sides[0]->y(1) - sides[1]->y(0)) > 1e-3 ) {
 		cout << "Lower right corner is disconnected!" << endl;
 		return false;
 	}
-	if ((sides[1]->x(1) != sides[2]->x(1)) && (sides[1]->y(1) != sides[2]->y(1))) {
+	if ( abs(sides[1]->x(1) - sides[2]->x(1)) > 1e-3 ||
+		 abs(sides[1]->y(1) - sides[2]->y(1)) > 1e-3 ) {
 		cout << "Upper right corner is disconnected!" << endl;
 		return false;
 	}
-	if ((sides[2]->x(0) != sides[3]->x(1)) && (sides[2]->y(0) != sides[3]->y(1))) {
+	if ( abs(sides[2]->x(0) - sides[3]->x(1)) > 1e-3 ||
+		 abs(sides[2]->y(0) - sides[3]->y(1)) > 1e-3) {
 		cout << "Upper left corner is disconnected!" << endl;
 		return false;
 	}
-	if ((sides[3]->x(0) != sides[0]->x(0)) && (sides[3]->y(0) != sides[0]->y(0))) {
+	if ( abs(sides[3]->x(0) - sides[0]->x(0)) > 1e-3 ||
+		 abs(sides[3]->y(0) - sides[0]->y(0)) > 1e-3 ) {
 		cout << "Lower left corner is disconnected!" << endl;
 		return false;
 	}
@@ -83,6 +88,8 @@ void Domain::generateGrid(int n, int m) {
 		bottomX[i] = sides[0]->x(i*h1);
 		bottomY[i] = sides[0]->y(i*h1);
 
+		cout << bottomY[i] << endl;
+
 		topX[i] = sides[2]->x(i*h1);
 		topY[i] = sides[2]->y(i*h1);
 	}
@@ -93,6 +100,26 @@ void Domain::generateGrid(int n, int m) {
 
 		leftX[j] = sides[3]->x(j*h2);
 		leftY[j] = sides[3]->y(j*h2);
+	}
+
+	cout << "print left side points " << endl;
+	for (int i = 0; i <= n_; ++i) {
+		cout << " (" << leftX[i] << ", " << leftY[i] << ") " << endl;
+	}
+
+	cout << "print rightt side points " << endl;
+	for (int i = 0; i <= n_; ++i) {
+		cout << " (" << rightX[i] << ", " << rightY[i] << ") " << endl;
+	}
+
+	cout << "print top side points " << endl;
+	for (int i = 0; i <= m_; ++i) {
+		cout << " (" << topX[i] << ", " << topY[i] << ") " << endl;
+	}
+
+	cout << "print bottom side points " << endl;
+	for (int i = 0; i <= m_; ++i) {
+		cout << " (" << bottomX[i] << ", " << bottomY[i] << ") " << endl;
 	}
 
 	// Allocate memory for arrays with coordinates for entire grid
