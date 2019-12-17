@@ -21,6 +21,8 @@ double XLine::y(double s) {
 
 // This member function looks awful
 double XLine::xp(double p) {
+	return p;
+	/*
 	if (p < a) {
 		return a;
 	} else if (p > b) {
@@ -28,6 +30,7 @@ double XLine::xp(double p) {
 	} else {
 		return p;
 	}
+	*/
 }
 
 double XLine::yp(double p) {
