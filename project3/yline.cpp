@@ -25,6 +25,8 @@ double YLine::xp(double p) {
 
 // This member function looks awful
 double YLine::yp(double p) {
+	return p;
+	/*
 	if (p < a) {
 		return a;
 	} else if (p > b) {
@@ -32,6 +34,7 @@ double YLine::yp(double p) {
 	} else {
 		return p;
 	}
+	*/
 }
 
 double YLine::dxp(double p) {
