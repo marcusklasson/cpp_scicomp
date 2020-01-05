@@ -49,8 +49,8 @@ const Point operator+(const double x, const Point& Q) {
 class Complex : public Point {
 	
 public:
-	Complex(double xx = 0.0, double yy = 0.0) : x(xx), y(yy) { };
-	Complex(const Complex& C) : x(C.X()), y(C.Y()) { };
+	Complex(double x, double y) : Point(x, y) { };
+	//Complex(const Complex& C) : x(C.X()), y(C.Y()) { };
 
 	const Complex operator*(const Complex& C) const {
 		return Complex( x*C.X() - y*C.Y(), x*C.Y() + y*C.X());
