@@ -63,11 +63,19 @@ const Rational Rational::operator/(const Rational& R) const {
 	return Rational( p*R.getQ(), q*R.getP() );
 }
 
+const Rational Rational::operator*(const int& pp) const {
+	return Rational( p*pp, q); 
+}
+
+const Rational operator*(const int pp, const Rational& R) {
+	return Rational( R.p*pp, R.q);
+}
+
 ostream& operator<<(ostream& os, const Rational& R) {
 	os << "(" << R.getP() << ", " << R.getQ() << ")";
 	return os;
 }
-
+/*
 int main() {
 	Rational r(1,2);
 	Rational r2(3,4);
@@ -84,8 +92,12 @@ int main() {
 	r = Rational(1, 2);
 	cout << "r /= r2: " << (r /= r2) << endl;
 
+	cout << "r2 * 2: " << (r2 * 2) << endl;
+	cout << "2 * r2: " << (2 * r2) << endl;
+
 	r2 = r;
 	cout << "r2 = r -> r2: " << r2 << endl;
 
 	return 0;
 }
+*/
