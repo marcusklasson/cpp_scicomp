@@ -33,10 +33,10 @@ double Curvebase::integrate(double a, double b) {
 		I1 = simpsonRule(a, b);
 		I2 = simpsonRule(a, 0.5*(a+b)) + simpsonRule(0.5*(a+b), b);
 		errest = abs(I1 - I2);
-		//cout << "Node: " << node << endl;
+		
 		if (errest < 15.0*tol) { // acceptable errest and in leaf
 			I += I2;
-			//cout << "Node: " << node << endl;
+			
 			/* while odd node, traverse up
 			 * until first even node
 			 */
@@ -85,16 +85,13 @@ double Curvebase::newtonMethod(double p0, double s) {
 }
 
 double Curvebase::x(double s) {
-	// Could check that s is in [0, 1]
 	double p, p0;
 	p0 = a + s * length; // initial guess for newton's method
 	p = newtonMethod(p0, s);
-	//cout << "From newtons method p = " << p << endl;
 	return xp(p);
 }
 
 double Curvebase::y(double s) {
-	// Could check that s is in [0, 1]
 	double p, p0;
 	p0 = a + s * length; // initial guess for newton's method
 	p = newtonMethod(p0, s);

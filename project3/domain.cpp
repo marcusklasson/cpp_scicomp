@@ -1,6 +1,7 @@
 #include <iostream>
 #include <cstdio>
 #include <cmath>
+#include <stdlib.h> 
 
 #include "domain.hpp"
 
@@ -13,11 +14,57 @@ Domain::Domain(Curvebase& s1, Curvebase& s2, Curvebase& s3, Curvebase& s4) {
 	sides[3] = &s4;
 
 	if (!checkConsistency()) { // Check if corners are connected
-		sides[0] = sides[1] = sides[2] = sides[3] = nullptr; // use nullptr instead of NULL to avoid confusion of type.
+		sides[0] = sides[1] = sides[2] = sides[3] = nullptr; 
 	}
 
 	m_ = n_ = 0; // Number of grid points
 	x_ = y_ = nullptr; // Arrays for grid coordinates
+}
+
+Domain::Domain(const Domain& d) {
+	
+	m_ = d.m_;
+	n_ = d.n_;
+	x_ = nullptr;
+	y_ = nullptr;
+	
+	if (m_ > 0) { 
+		x_ = new double[(m_+1)*(n_+1)];
+		y_ = new double[(m_+1)*(n_+1)];
+		for (int i = 0; i < (m_+1)*(n_+1); ++i) {
+			x_[i] = d.x_[i];
+			y_[i] = d.y_[i];
+		}
+	}
+}
+
+Domain& Domain::operator=(const Domain& d) {
+	if (this != &d) { // Don't have to copy itself
+		if (m_ == d.m_ && n_ == d.n_) {
+			for (int i = 0; i < (m_+1)*(n_+1); ++i) {
+				x_[i] = d.x_[i];
+				y_[i] = d.y_[i];
+			}
+		} else {
+			if (m_ > 0) { // if grid already exists in this object
+				delete [] x_;
+				delete [] y_;
+				x_ = nullptr;
+				y_ = nullptr;
+			}
+			m_ = d.m_;
+			n_ = d.n_;
+			if (m_ > 0) { // copy grid points from d to this
+				x_ = new double[(m_+1)*(n_+1)];
+				y_ = new double[(m_+1)*(n_+1)];
+				for (int i = 0; i < (m_+1)*(n_+1); ++i) {
+					x_[i] = d.x_[i];
+					y_[i] = d.y_[i];
+				}
+			}
+		}
+	}
+	return *this;
 }
 
 Domain::~Domain() {
@@ -55,13 +102,16 @@ bool Domain::checkConsistency() {
 void Domain::generateGrid(int n, int m) {
 
 	if ((m < 1) || (n < 1)) {
-		cout << "Error! Both m and n has to be larger than zero." << endl;
-		return;
-	} else if (!checkConsistency()) {
-		cout << "Error! Corners has to be connected when generating grid." << endl;
-		return;
-	}	
+		cout << "Error! Both m and n has to be greater than zero." << endl;
+		cout << "Exiting program... \n\n";
+		exit(EXIT_FAILURE);
+	} 
 
+	if (m_ > 0) { // Check if there already exists a grid
+		delete [] x_;
+		delete [] y_;
+	}
+	
 	n_ = n; // number of grid points in y-direction 
 	m_ = m; // number of grid points in x-direction
 
@@ -70,8 +120,9 @@ void Domain::generateGrid(int n, int m) {
 	double h2 = 1.0 / n_;
 
 	// Create arrays to carry values for the bound curves in (x,y)-domain
+	// First, create pointers for the arrays
 	double *bottomX, *topX, *leftX, *rightX, *bottomY, *topY, *leftY, *rightY;
-	// Allocate memory. Need to check this if I am actually allocating memory with this command!!!
+	// Allocate memory
 	bottomX = new double[m_+1];
 	bottomY = new double[m_+1];
 
@@ -83,12 +134,10 @@ void Domain::generateGrid(int n, int m) {
 
 	rightX = new double[n_+1];
 	rightY = new double[n_+1];
-
+	
 	for (int i = 0; i <= m_; ++i) {
 		bottomX[i] = sides[0]->x(i*h1);
 		bottomY[i] = sides[0]->y(i*h1);
-
-		cout << bottomY[i] << endl;
 
 		topX[i] = sides[2]->x(i*h1);
 		topY[i] = sides[2]->y(i*h1);
@@ -102,30 +151,10 @@ void Domain::generateGrid(int n, int m) {
 		leftY[j] = sides[3]->y(j*h2);
 	}
 
-	cout << "print left side points " << endl;
-	for (int i = 0; i <= n_; ++i) {
-		cout << " (" << leftX[i] << ", " << leftY[i] << ") " << endl;
-	}
-
-	cout << "print rightt side points " << endl;
-	for (int i = 0; i <= n_; ++i) {
-		cout << " (" << rightX[i] << ", " << rightY[i] << ") " << endl;
-	}
-
-	cout << "print top side points " << endl;
-	for (int i = 0; i <= m_; ++i) {
-		cout << " (" << topX[i] << ", " << topY[i] << ") " << endl;
-	}
-
-	cout << "print bottom side points " << endl;
-	for (int i = 0; i <= m_; ++i) {
-		cout << " (" << bottomX[i] << ", " << bottomY[i] << ") " << endl;
-	}
-
 	// Allocate memory for arrays with coordinates for entire grid
 	x_ = new double[(m_+1)*(n_+1)];
 	y_ = new double[(m_+1)*(n_+1)];
-
+	
 	for (int j = 0; j <= n_; ++j ) {
 		for (int i = 0; i <= m_; ++i) {
 			x_[i+j*(m_+1)] = 
@@ -164,7 +193,7 @@ void Domain::generateGrid(int n, int m) {
 }
 
 void Domain::print() {
-	// Print all rows of grid
+	// Print all rows of grid (for debugging purposes)
 	cout << "Print grid coordinate values: " << endl;
 	for (int i = 0; i < (m_+1)*(n_+1); ++i) {
 		cout << " (" << x_[i] << ", " << y_[i] << ") " << endl;
@@ -175,7 +204,7 @@ void Domain::print() {
 void Domain::write() {
 	FILE *fp;
 	fp = fopen("outfile.bin", "wb");
-	fwrite(&n_, sizeof(int), 1, fp); // why do we need the address here?
+	fwrite(&n_, sizeof(int), 1, fp); 
 	fwrite(&m_, sizeof(int), 1, fp);
 	fwrite(x_, sizeof(double), (m_+1)*(n_+1), fp);
 	fwrite(y_, sizeof(double), (m_+1)*(n_+1), fp);

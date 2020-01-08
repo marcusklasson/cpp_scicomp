@@ -14,16 +14,15 @@ protected:
 	virtual double dxp(double p) = 0;
 	virtual double dyp(double p) = 0;
 
-	virtual double integrate(double a, double b); //arc length integral
-	double newtonMethod(double p0, double s); // Newton solver
+	double integrate(double a, double b); //arc length integral
+	double newtonMethod(double p0, double s); // Newton's method
 	double simpsonRule(double a, double b);
 	double dL(double p); // integrand of arc length
 
-
 public:
 	Curvebase(); //constructor
-	virtual double x(double s); //arc length parametrization
-	virtual double y(double s); //arc length parametrization
+	double x(double s); //arc length parametrization
+	double y(double s); //arc length parametrization
 
 };
 

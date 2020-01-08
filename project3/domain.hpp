@@ -17,14 +17,12 @@ private:
 
 public:
 	Domain(Curvebase& s1, Curvebase& s2, Curvebase& s3, Curvebase& s4);
-	//Domain(const Domain&);
-	//Domain& operator=(Domain&);
+	Domain(const Domain& d);
+	Domain& operator=(const Domain& d);
 	~Domain();
 
-	// generateGrid() actually generates a grid with n+1 and m+1 points. 
-	// Maybe it should be that way, like in linspace() you always need n+1 to get the end point
 	void generateGrid(int n, int m); 
-	void print();
+	void print(); 
 	void write();
 	
 };
