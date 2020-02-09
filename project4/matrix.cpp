@@ -27,7 +27,7 @@ Matrix::Matrix(const Matrix& M) {
 }
 
 // Move constructor
-Matrix::Matrix(Matrix&& M) : m(M.m), n(M.n), A(M.A) {
+Matrix::Matrix(Matrix&& M) noexcept : m(M.m), n(M.n), A(M.A) {
 	std::cout << "inside move constructor! \n";
 	M.m = 0;
 	M.n = 0;
@@ -121,7 +121,7 @@ Matrix Matrix::operator+(const Matrix& M) const {
 	return result;
 }
 
-const double& Matrix::operator()(int row, int col) const {
+double& Matrix::operator()(int row, int col) const {
 	// Elements are stored in column-major order
 	assert(row >= 0 && row < m);
 	assert(col >= 0 && col < n);

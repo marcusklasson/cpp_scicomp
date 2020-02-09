@@ -14,7 +14,7 @@ private:
 public:
 	Matrix(int m_ = 0, int n_ = 0); 
 	Matrix(const Matrix& M); // copy constructor
-	Matrix(Matrix&& M); // move constructor
+	Matrix(Matrix&& M) noexcept; // move constructor
 	~Matrix();
 
 	// From assignment sheet
@@ -32,7 +32,7 @@ public:
 	void printMatrix() const;
 
 	// New member functions
-	const double& operator()(int row, int col) const;
+	double& operator()(int row, int col) const;
 
 	int getRows() const {return m;}
 	int getCols() const {return n;}
