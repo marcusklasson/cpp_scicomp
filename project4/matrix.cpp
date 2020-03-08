@@ -157,6 +157,17 @@ Matrix operator+(Matrix&& A, const Matrix& B) {
 } 
 */
 
+void Matrix::printMatrix() const {
+	for (int j = 0; j < n; ++j) {
+		for (int i = 0; i < m; ++i) {
+			cout << "(i, j) : (" << i << ", " << j << ") --> " << A[j + i*m];
+			cout << "\n";
+		}
+		cout << "\n";
+	}	
+	cout << "\n";
+}
+
 void Matrix::writeToFile(string filename) const {
 	if (m < 1 || n < 1) {
 		cout << "Error! No matrix to write to file..." << endl;

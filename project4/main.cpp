@@ -40,6 +40,7 @@ int main() {
 	// Derivative du/dx
 	cout << "Compute derivative of u wrt x" << endl;
 	GFkt dux = U.D0x();
+	dux.print();
 	dux.writeToFile("dux.bin");
 
 	// Derivative du/dy

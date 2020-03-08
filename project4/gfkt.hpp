@@ -29,6 +29,7 @@ public:
 	GFkt D0y() const;
 	GFkt computeLaplace() const;
 
+	void print() const { u.printMatrix(); }
 	void writeToFile(std::string fileName) const { u.writeToFile(fileName); } // write to binary file
 
 };
