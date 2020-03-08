@@ -1,6 +1,9 @@
 #include <iostream>
 #include <cassert> // for assert
+#include <stdio.h>
 #include "matrix.hpp"
+
+using namespace std;
 
 Matrix::Matrix(int m_, int n_) : m(m_), n(n_), A(nullptr) {
 	if (m*n > 0) {
@@ -26,13 +29,19 @@ Matrix::Matrix(const Matrix& M) {
 	}
 }
 
+/*
 // Move constructor
-Matrix::Matrix(Matrix&& M) noexcept : m(M.m), n(M.n), A(M.A) {
+Matrix::Matrix(Matrix&& M) noexcept {//: m(M.m), n(M.n), A(M.A) {
 	std::cout << "inside move constructor! \n";
+	m = M.m;
+	n = M.n;
+	A = M.A;
 	M.m = 0;
 	M.n = 0;
 	M.A = nullptr;
+	std::cout << "hej då \n";
 }
+*/
 
 Matrix::~Matrix() {
 	if (A != nullptr) {
@@ -67,30 +76,22 @@ Matrix& Matrix::operator=(const Matrix& M) {
 	return *this;
 } 
 
+
 // Move assignment operator
-Matrix& Matrix::operator=(Matrix&& M) {
+Matrix &Matrix::operator=(Matrix &&M) noexcept{
+    if (this == &M) {
+        return *this;
+    }
+    m = M.m;
+    n = M.n;
+    A = M.A;
+    M.m = 0;
+    M.n = 0;
+    M.A = nullptr;
 
-	std::cout << "Inside Move-assignment!\n" << std::endl;
-	if (this == &M) {
-		return *this;
-	}
-
-	delete[] A;
-	m = M.m;
-	n = M.n;
-	A = nullptr;
-	if (m*n > 0) {
-		for (int i = 0; i < m*n; ++i) {
-			A[i] = M.A[i];
-		}
-	}
-
-	M.m = 0;
-	M.n = 0;
-	M.A = nullptr;
-
-	return *this;
+    return *this;
 }
+
 
 const Matrix& Matrix::operator+=(const Matrix& M) {
 	assert(m == M.m); // Matrix addition requires same size
@@ -121,6 +122,25 @@ Matrix Matrix::operator+(const Matrix& M) const {
 	return result;
 }
 
+/*
+Matrix& Matrix::operator*(const Matrix& M) {
+	// point-wise multiplication
+	assert(m == M.m); // Matrix addition requires same size
+	assert(n == M.n);
+	for (int i = 0; i < m*n; ++i) {
+		A[i] *=  M.A[i];
+	}
+	return *this;
+}
+*/
+
+const Matrix& Matrix::operator*=(const double c) {
+	for (int i = 0; i < m*n; ++i) {
+		A[i] = c * A[i];
+	}
+	return *this;
+}
+
 double& Matrix::operator()(int row, int col) const {
 	// Elements are stored in column-major order
 	assert(row >= 0 && row < m);
@@ -128,12 +148,31 @@ double& Matrix::operator()(int row, int col) const {
 	return A[row + col*m]; 
 }
 
+/*
 Matrix operator+(Matrix&& A, const Matrix& B) {
 	assert(A.m == B.m); // Matrix addition requires same size
 	assert(A.n == B.n);
 	A += B;
 	return static_cast<Matrix&&>(A); // use move constructor, same command as std::move(A)
 } 
+*/
+
+void Matrix::writeToFile(string filename) const {
+	if (m < 1 || n < 1) {
+		cout << "Error! No matrix to write to file..." << endl;
+		return;
+	}
+	FILE *fp;
+	fp = fopen(filename.c_str(), "wb");
+	if (fp == nullptr) {
+		cout << "Error! Could not open file..." << endl;
+        return;
+	}
+	fwrite(&n, sizeof(int), 1, fp); 
+	fwrite(&m, sizeof(int), 1, fp);
+	fwrite(A, sizeof(double), m*n, fp);
+	fclose(fp);
+}
 
 std::ostream& operator<<(std::ostream& os, const Matrix& M) {
 	for (int i = 0; i < M.m; ++i) {
@@ -144,3 +183,5 @@ std::ostream& operator<<(std::ostream& os, const Matrix& M) {
 	}
 	return os;
 }
+
+

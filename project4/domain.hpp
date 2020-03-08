@@ -3,6 +3,7 @@
 
 #include <memory> // for std::shared_ptr
 #include "curvebase.hpp"
+#include "point.hpp"
 
 class Domain {
 
@@ -29,13 +30,15 @@ public:
 	Domain& operator=(const Domain& d);
 	~Domain();
 
-	int getM() const { return m_; }
-	int getN() const { return n_; }
+	Point operator()(int i, int j) const;	// Coordinates at i,j
+
+	int getXSize() const { return m_; }
+	int getYSize() const { return n_; }
 	bool gridValid() const { return m_ != 0; }
 
 	void generateGrid(int n, int m); 
 	void print(); 
-	void write();
+	void writeToFile(std::string filename);
 	
 };
 

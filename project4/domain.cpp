@@ -75,6 +75,16 @@ Domain::~Domain() {
 	}
 }
 
+Point Domain::operator()(int i, int j) const {
+	if (i < 0 || i > m_ || j < 0 || j > n_) {
+		cout << "Error! Both index not within valid range." << endl;
+		cout << "Exiting program... \n\n";
+		exit(EXIT_FAILURE);
+	}
+	int idx = j+i*(m_+1);
+	return Point(x_[idx], y_[idx]);
+}
+
 bool Domain::checkConsistency() {
 	// check for orientation of lines!
 	if ( abs(sides[0]->x(1) - sides[1]->x(0)) > 1e-3 ||
@@ -202,9 +212,9 @@ void Domain::print() {
 	cout << "Printed all values in grid." << endl;
 }
 
-void Domain::write() {
+void Domain::writeToFile(string filename) {
 	FILE *fp;
-	fp = fopen("outfile.bin", "wb");
+	fp = fopen(filename.c_str(), "wb");
 	fwrite(&n_, sizeof(int), 1, fp); 
 	fwrite(&m_, sizeof(int), 1, fp);
 	fwrite(x_, sizeof(double), (m_+1)*(n_+1), fp);
