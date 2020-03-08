@@ -46,11 +46,13 @@ int main() {
 	// Derivative du/dy
 	cout << "Compute derivative of u wrt y" << endl;
 	GFkt duy = U.D0y();
+	duy.print();
 	duy.writeToFile("duy.bin");
 
 	// Laplacian (du/dx)**2 + (du/dy)**2 = du/dt
 	cout << "Compute Laplacian" << endl;
 	GFkt laplace = U.computeLaplace();
+	laplace.print();
 	laplace.writeToFile("laplace.bin");
 
 	//cout << "End of program." << endl;

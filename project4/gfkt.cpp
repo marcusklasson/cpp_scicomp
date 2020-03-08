@@ -165,6 +165,6 @@ GFkt GFkt::D0y() const {
 }
 
 GFkt GFkt::computeLaplace() const {
-	GFkt laplace = D0x()*D0x() + D0y()*D0y(); 
+	GFkt laplace = D0x().D0x() + D0y().D0y(); 
 	return laplace;
 }
