@@ -18,7 +18,7 @@ Domain::Domain(shared_ptr<Curvebase> s1, shared_ptr<Curvebase> s2, shared_ptr<Cu
 		sides[0] = sides[1] = sides[2] = sides[3] = nullptr; 
 	}
 
-	m_ = n_ = 0; // Number of grid points
+	m_ = n_ = 0; // Number of grid points, m is number of x coord, n is number of y coord
 	x_ = y_ = nullptr; // Arrays for grid coordinates
 }
 
@@ -110,7 +110,7 @@ bool Domain::checkConsistency() {
 	return true;
 }
 
-void Domain::generateGrid(int n, int m) {
+void Domain::generateGrid(int m, int n) {
 
 	if ((m < 1) || (n < 1)) {
 		cout << "Error! Both m and n has to be greater than zero." << endl;
@@ -122,9 +122,9 @@ void Domain::generateGrid(int n, int m) {
 		delete [] x_;
 		delete [] y_;
 	}
-	
-	n_ = n; // number of grid points in y-direction 
+
 	m_ = m; // number of grid points in x-direction
+	n_ = n; // number of grid points in y-direction 
 
 	// step sizes 
 	double h1 = 1.0 / m_; 
@@ -166,9 +166,9 @@ void Domain::generateGrid(int n, int m) {
 	x_ = new double[(m_+1)*(n_+1)];
 	y_ = new double[(m_+1)*(n_+1)];
 	
-	for (int j = 0; j <= n_; ++j ) {
-		for (int i = 0; i <= m_; ++i) {
-			x_[i+j*(m_+1)] = 
+	for (int i = 0; i <= m_; ++i ) {
+		for (int j = 0; j <= n_; ++j) {
+			x_[j+i*(n_+1)] = 
 				phi0(i*h1) * leftX[j] 					// left side
 				+ phi1(i*h1) * rightX[j]				// right side
 				+ phi0(j*h2) * bottomX[i] 					// lower side
@@ -178,7 +178,7 @@ void Domain::generateGrid(int n, int m) {
 				- phi0(i*h1) * phi1(j*h2) * topX[0]		// upper left corner
 				- phi1(i*h1) * phi1(j*h2) * topX[m_];	// upper right corner
 
-			y_[i+j*(m_+1)] = 
+			y_[j+i*(n_+1)] = 
 				phi0(i*h1) * leftY[j] 					// left side
 				+ phi1(i*h1) * rightY[j]				// right side
 				+ phi0(j*h2) * bottomY[i] 					// lower side
@@ -205,6 +205,8 @@ void Domain::generateGrid(int n, int m) {
 
 void Domain::print() {
 	// Print all rows of grid (for debugging purposes)
+
+	// Printing in cloumn-major order from bottom to up direction
 	cout << "Print grid coordinate values: " << endl;
 	for (int i = 0; i < (m_+1)*(n_+1); ++i) {
 		cout << " (" << x_[i] << ", " << y_[i] << ") " << endl;
