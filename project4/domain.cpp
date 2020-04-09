@@ -77,11 +77,14 @@ Domain::~Domain() {
 
 Point Domain::operator()(int i, int j) const {
 	if (i < 0 || i > m_ || j < 0 || j > n_) {
+	//if (i < 0 || i > n_ || j < 0 || j > m_) {
 		cout << "Error! Both index not within valid range." << endl;
 		cout << "Exiting program... \n\n";
 		exit(EXIT_FAILURE);
 	}
-	int idx = j+i*(m_+1);
+	//cout << "i, j: " << i << " " << j << endl;
+	int idx = j+i*(n_+1);
+	//cout << "index: " << idx << endl;
 	return Point(x_[idx], y_[idx]);
 }
 
@@ -206,7 +209,7 @@ void Domain::generateGrid(int m, int n) {
 void Domain::print() {
 	// Print all rows of grid (for debugging purposes)
 
-	// Printing in cloumn-major order from bottom to up direction
+	// Printing in column-major order from bottom to up direction
 	cout << "Print grid coordinate values: " << endl;
 	for (int i = 0; i < (m_+1)*(n_+1); ++i) {
 		cout << " (" << x_[i] << ", " << y_[i] << ") " << endl;

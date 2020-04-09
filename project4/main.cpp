@@ -18,13 +18,15 @@ double targetFunction(Point p) {
 int main() {
 	
 	// number of grid points
+	// m are number of x coordinates (columns in matrix)
+	// n are number of y coordinates (rows in matrix)
 	int m = 50, n = 20;
 
 	// boundary curves of physical domain
-	shared_ptr<XCurve> s1 = make_shared<XCurve>(-10, 5);	// lower horizontal curve
-	shared_ptr<YLine> s2 = make_shared<YLine>(0, 3, 5); // right vertical line
-	shared_ptr<XLine> s3 = make_shared<XLine>(-10, 5, 3); //upper horizontal line
-	shared_ptr<YLine> s4 = make_shared<YLine>(0, 3, -10); // left vertical line 
+	shared_ptr<XCurve> s1 = make_shared<XCurve>(-10.0, 5.0);	// lower horizontal curve
+	shared_ptr<YLine> s2 = make_shared<YLine>(0.0, 3.0, 5.0); // right vertical line
+	shared_ptr<XLine> s3 = make_shared<XLine>(-10.0, 5.0, 3.0); //upper horizontal line
+	shared_ptr<YLine> s4 = make_shared<YLine>(0.0, 3.0, -10.0); // left vertical line 
 	
 	// generate grid and write to binary file
 	cout << "Generate grid" << endl;
@@ -36,25 +38,27 @@ int main() {
 	// Set grid function u(x, y) = targetFunction()
 	GFkt U = GFkt(grid);
 	U.setFunction(*targetFunction);
-
+	U.print();
+	
 	// Derivative du/dx
-	cout << "Compute derivative of u wrt x" << endl;
+	cout << "Derivative of u wrt x" << endl;
 	GFkt dux = U.D0x();
 	dux.print();
 	dux.writeToFile("dux.bin");
-
+	
 	// Derivative du/dy
-	cout << "Compute derivative of u wrt y" << endl;
+	cout << "Derivative of u wrt y" << endl;
 	GFkt duy = U.D0y();
 	duy.print();
 	duy.writeToFile("duy.bin");
 
+	
 	// Laplacian (du/dx)**2 + (du/dy)**2 = du/dt
-	cout << "Compute Laplacian" << endl;
+	cout << "Laplacian" << endl;
 	GFkt laplace = U.computeLaplace();
 	laplace.print();
 	laplace.writeToFile("laplace.bin");
-
-	//cout << "End of program." << endl;
+	
+	cout << "\nEnd of program.\n" << endl;
 	return 0;
 }

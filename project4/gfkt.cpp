@@ -5,15 +5,6 @@
 
 using namespace std;
 
-/*
-GFkt::GFkt(std::shared_ptr<Domain> grid_) {
-	// getYSize gives number of y coordinates which are on the rows in the matrix
-	// getXSize gives number of x coordinates which are on the columns
-	u = Matrix(grid_ -> getYSize()+1, grid_ -> getXSize()+1);
-	grid = grid_;
-}
-*/
-
 GFkt& GFkt::operator=(const GFkt& U) {
 	if (this == &U) {
 		return *this;
@@ -83,13 +74,25 @@ GFkt GFkt::D0x() const {
 			for (int i = 0; i <= grid->getXSize(); ++i) {
 
 				if (i == 0) {
+					/*
 					dxi = (3 * ((*grid)(i, j).getX()) - 4 * ((*grid)(i+1, j).getX()) + ((*grid)(i+2, j).getX()) ) / (3*h1);
 					dyi = (3 * ((*grid)(i, j).getY()) - 4 * ((*grid)(i+1, j).getY()) + ((*grid)(i+2, j).getY()) ) / (3*h1);
 					dui = (3 * u(i, j) - 4 * u(i+1, j) + u(i+2, j) ) / (3*h1);
+					*/
+					dxi = ((*grid)(i + 1, j).getX() - (*grid)(i, j).getX()) / h1;
+					dyi = ((*grid)(i + 1, j).getY() - (*grid)(i, j).getY()) / h1;
+					dui = (u(i + 1, j) - u(i, j)) / h1;
+
 				} else if (i == grid->getXSize()) {
+					/*
 					dxi = (3 * ((*grid)(i, j).getX()) - 4 * ((*grid)(i-1, j).getX()) + ((*grid)(i-2, j).getX()) ) / (3*h1);
 					dyi = (3 * ((*grid)(i, j).getY()) - 4 * ((*grid)(i-1, j).getY()) + ((*grid)(i-2, j).getY()) ) / (3*h1);
 					dui = (3 * u(i, j) - 4 * u(i-1, j) + u(i-2, j) ) / (3*h1);
+					*/
+					dxi = ((*grid)(i, j).getX() - (*grid)(i - 1, j).getX()) / h1;
+					dyi = ((*grid)(i, j).getY() - (*grid)(i - 1, j).getY()) / h1;
+					dui = (u(i, j) - u(i - 1, j)) / h1;
+
 				} else {
 					dxi = ((*grid)(i + 1, j).getX() - (*grid)(i - 1, j).getX() ) / (2*h1);
 					dyi = ((*grid)(i + 1, j).getY() - (*grid)(i - 1, j).getY() ) / (2*h1);
@@ -97,13 +100,24 @@ GFkt GFkt::D0x() const {
 				}
 				
 				if (j == 0) {
+					/*
 					dxj = (3 * ((*grid)(i, j).getX()) - 4 * ((*grid)(i, j+1).getX()) + ((*grid)(i, j+2).getX()) ) / (3*h2);
 					dyj = (3 * ((*grid)(i, j).getY()) - 4 * ((*grid)(i, j+1).getY()) + ((*grid)(i, j+2).getY()) ) / (3*h2);
 					duj = (3 * u(i, j) - 4 * u(i, j+1) + u(i, j+2) ) / (3*h2);
+					*/
+					dxj = ((*grid)(i, j + 1).getX() - (*grid)(i, j).getX()) / h2;
+					dyj = ((*grid)(i, j + 1).getY() - (*grid)(i, j).getY()) / h2;
+					duj = (u(i, j + 1) - u(i, j)) / h2;
+
 				} else if (j == grid->getYSize()) {
+					/*
 					dxj = (3 * ((*grid)(i, j).getX()) - 4 * ((*grid)(i, j-1).getX()) + ((*grid)(i, j-2).getX()) ) / (3*h2);
 					dyj = (3 * ((*grid)(i, j).getY()) - 4 * ((*grid)(i, j-1).getY()) + ((*grid)(i, j-2).getY()) ) / (3*h2);
-					duj = (3 * u(i, j) - 4 * u(i, j-1) + u(i, j-2) ) / (3*h2);					 
+					duj = (3 * u(i, j) - 4 * u(i, j-1) + u(i, j-2) ) / (3*h2);	
+					*/
+					dxj = ((*grid)(i, j).getX() - (*grid)(i, j - 1).getX()) / h2;
+					dyj = ((*grid)(i, j).getY() - (*grid)(i, j - 1).getY()) / h2;
+					duj = (u(i, j) - u(i, j - 1)) / h2;				 
 				} else {
 					dxj = ((*grid)(i, j+1).getX() - (*grid)(i, j-1).getX() ) / (2*h2);
 					dyj = ((*grid)(i, j+1).getY() - (*grid)(i, j-1).getY() ) / (2*h2);

@@ -29,19 +29,6 @@ Matrix::Matrix(const Matrix& M) {
 	}
 }
 
-/*
-// Move constructor
-Matrix::Matrix(Matrix&& M) noexcept {//: m(M.m), n(M.n), A(M.A) {
-	std::cout << "inside move constructor! \n";
-	m = M.m;
-	n = M.n;
-	A = M.A;
-	M.m = 0;
-	M.n = 0;
-	M.A = nullptr;
-	std::cout << "hej då \n";
-}
-*/
 
 Matrix::~Matrix() {
 	if (A != nullptr) {
@@ -142,38 +129,27 @@ const Matrix& Matrix::operator*=(const double c) {
 }
 
 double& Matrix::operator()(int i, int j) const {
-	// Elements are stored in column-major order
+	// Elements are stored such that x coordinates are on the row side
+	// and y coordinates are on column side
 	assert(i >= 0 && i <= m); // m are number of rows
 	assert(j >= 0 && j <= n); // n are number of columns
-	return A[i + j*m];// return a[j+i*m];
-	/*
-	assert(row >= 0 && row < m);
-	assert(col >= 0 && col < n);
-	return A[row + col*m];
-	*/ 
-}
+	return A[i+j*m];// return a[j+i*m];
 
-/*
-Matrix operator+(Matrix&& A, const Matrix& B) {
-	assert(A.m == B.m); // Matrix addition requires same size
-	assert(A.n == B.n);
-	A += B;
-	return static_cast<Matrix&&>(A); // use move constructor, same command as std::move(A)
-} 
-*/
+}
 
 void Matrix::printMatrix() const {
 	/*
 	First point to print is lower left point,
-	Then print the whole column, i.e. all row values for the first column, in bottom-up direction
-	Then do the same for the following columns
+	Then print the whole row, which will be the y coordinates
+	Then do the same for the following rows
+	Think of the grid as beign flipped 90 degrees to the right.
 	*/
-	cout << "\n";
-	for (int j = 0; j < n; ++j) {
-		for (int i = 0; i < m; ++i) {
-			cout << "[ " << i << ", " << j << "] = " << A[i + j*m];
-			cout << "\n";
+
+	for (int i = 0; i < m; i++) {
+		for (int j = 0; j < n; j++) {
+			cout << A[i + j*m] << " ";
 		}
+		cout << endl;
 	}
 	cout << "\n";
 }

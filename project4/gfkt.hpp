@@ -17,7 +17,7 @@ private:
 	std::shared_ptr<Domain> grid;
 
 public:
-	GFkt(std::shared_ptr<Domain> grid_) : u(grid_->getXSize()+1, grid_->getYSize()+1), grid(grid_) {}
+	GFkt(std::shared_ptr<Domain> grid_) : u( grid_->getXSize()+1, grid_->getYSize()+1), grid(grid_) {}
 	GFkt(const GFkt& U) : u(U.u), grid(U.grid) {}
 	GFkt& operator=(const GFkt& U); // copy assignment
 	GFkt& operator=(GFkt&& U) noexcept; // move assignment
