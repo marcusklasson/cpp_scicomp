@@ -6,7 +6,7 @@
 class Matrix {
 
 private:
-	int m, n;
+	int m, n; // m is number of rows, n is number of columns
 	double* A;
 	//std::vector<std::vector<double>> matrix;
 
@@ -30,6 +30,7 @@ public:
 	//Matrix& operator*=(const Matrix&);
 	const Matrix& operator*=(const double);
 	void printMatrix() const;
+	void fillMatrix();
 	void writeToFile(std::string filename) const; 
 
 	// New member functions

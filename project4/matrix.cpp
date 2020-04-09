@@ -141,11 +141,16 @@ const Matrix& Matrix::operator*=(const double c) {
 	return *this;
 }
 
-double& Matrix::operator()(int row, int col) const {
+double& Matrix::operator()(int i, int j) const {
 	// Elements are stored in column-major order
+	assert(i >= 0 && i <= m); // m are number of rows
+	assert(j >= 0 && j <= n); // n are number of columns
+	return A[i + j*m];// return a[j+i*m];
+	/*
 	assert(row >= 0 && row < m);
 	assert(col >= 0 && col < n);
-	return A[row + col*m]; 
+	return A[row + col*m];
+	*/ 
 }
 
 /*
@@ -158,14 +163,25 @@ Matrix operator+(Matrix&& A, const Matrix& B) {
 */
 
 void Matrix::printMatrix() const {
+	/*
+	First point to print is lower left point,
+	Then print the whole column, i.e. all row values for the first column, in bottom-up direction
+	Then do the same for the following columns
+	*/
+	cout << "\n";
 	for (int j = 0; j < n; ++j) {
 		for (int i = 0; i < m; ++i) {
-			cout << "(i, j) : (" << i << ", " << j << ") --> " << A[j + i*m];
+			cout << "[ " << i << ", " << j << "] = " << A[i + j*m];
 			cout << "\n";
 		}
-		cout << "\n";
-	}	
+	}
 	cout << "\n";
+}
+
+void Matrix::fillMatrix() {
+	for (int i = 0; i<m*n; ++i) {
+		A[i] = i;
+	}
 }
 
 void Matrix::writeToFile(string filename) const {
