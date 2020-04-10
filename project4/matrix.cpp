@@ -171,8 +171,8 @@ void Matrix::writeToFile(string filename) const {
 		cout << "Error! Could not open file..." << endl;
         return;
 	}
-	fwrite(&n, sizeof(int), 1, fp); 
-	fwrite(&m, sizeof(int), 1, fp);
+	fwrite(&m, sizeof(int), 1, fp); // number of rows/x coordinates
+	fwrite(&n, sizeof(int), 1, fp); // number of columns/y coordinates
 	fwrite(A, sizeof(double), m*n, fp);
 	fclose(fp);
 }
