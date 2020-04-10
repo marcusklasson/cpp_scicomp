@@ -9,14 +9,13 @@ fclose(fileID);
 fileID = fopen([path, '/dux.bin'], 'r');
 m1 = fread(fileID, 1, 'int');
 n1 = fread(fileID, 1, 'int');
-dux = fread(fileID, [m1, n1], 'double');
-%dux = fread(fileID, [m1 * n1, 2], 'double');
+dudx = fread(fileID, [m1, n1], 'double');
 fclose(fileID);
 
 fileID = fopen([path, '/duy.bin'], 'r');
 m1 = fread(fileID, 1, 'int');
 n1 = fread(fileID, 1, 'int');
-duy = fread(fileID, [m1, n1], 'double');
+dudy = fread(fileID, [m1, n1], 'double');
 fclose(fileID);
 
 fileID = fopen([path, '/laplace.bin'], 'r');
@@ -27,52 +26,51 @@ fclose(fileID);
 %%
 figure()
 plot(G(:,1), G(:,2), '*')
-%xlim([-10.5, 5.5]); ylim([-0.5, 3.5]);
 xlabel('x'); ylabel('y');
 
 %%
 X = vec2mat(G(:,1),m+1)';
 Y = vec2mat(G(:,2),m+1)';
-Z = sin(0.01*X.^2).*cos(0.1*X) + Y;
+U = sin(0.01*X.^2).*cos(0.1*X) + Y;
 
 figure()
-surf(X,Y,Z);
-xlabel('x'); ylabel('y'); zlabel('Z');
+surf(X,Y,U);
+colorbar
+xlabel('x'); ylabel('y'); zlabel('u(x, y)');
 
 %% 
 figure()
-Zdx = 0.02.*X.*cos(0.01*X.^2).*cos(0.1*X) - 0.1.*sin(0.01*X.^2).*sin(0.1*X);
-surf(X,Y,Zdx);
+dudx_true = 0.02.*X.*cos(0.01*X.^2).*cos(0.1*X) - 0.1.*sin(0.01*X.^2).*sin(0.1*X);
+surf(X,Y,dudx_true);
 colorbar
-%xlim([-10.5, 5.5]); ylim([-0.5, 3.5]);
-xlabel('x'); ylabel('y'); zlabel('dZ/dx');
+xlabel('x'); ylabel('y'); zlabel('true du/dx');
 
 %%
 figure()
-surf(X,Y,dux');
+surf(X,Y,dudx');
 colorbar
 xlabel('x'); ylabel('y'); zlabel('du/dx');
-err = abs(Zdx - dux');
+err = abs(dudx_true - dudx');
 err = mean(err(:))
 
 %%
 figure()
-Zdy = ones(size(duy'));
-surf(X,Y,Zdy);
+dudy_true = ones(size(duy'));
+surf(X,Y,dudy_true);
 colorbar
-xlabel('x'); ylabel('y'); zlabel('dZ/dy');
+xlabel('x'); ylabel('y'); zlabel('true du/dy');
 
 %%
 figure()
-surf(X,Y,duy');
+surf(X,Y,dudy');
 colorbar
 xlabel('x'); ylabel('y'); zlabel('du/dy');
-err = abs(Zdy - duy');
+err = abs(dudy_true - dudy');
 err = mean(err(:))
 
 %%
 figure()
 surf(X,Y,L');
 colorbar
-xlabel('x'); ylabel('y'); zlabel('Laplace');
+xlabel('x'); ylabel('y'); zlabel('Laplacian \Delta u');
 
