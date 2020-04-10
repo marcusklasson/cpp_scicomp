@@ -208,7 +208,6 @@ void Domain::generateGrid(int m, int n) {
 
 void Domain::print() {
 	// Print all rows of grid (for debugging purposes)
-
 	// Printing in column-major order from bottom to up direction
 	cout << "Print grid coordinate values: " << endl;
 	for (int i = 0; i < (m_+1)*(n_+1); ++i) {
@@ -217,11 +216,11 @@ void Domain::print() {
 	cout << "Printed all values in grid." << endl;
 }
 
-void Domain::writeToFile(string filename) {
+void Domain::write(string filename) {
 	FILE *fp;
 	fp = fopen(filename.c_str(), "wb");
 	fwrite(&n_, sizeof(int), 1, fp); 
-	fwrite(&m_, sizeof(int), 1, fp);
+	fwrite(&m_, sizeof(int), 1, fp); 
 	fwrite(x_, sizeof(double), (m_+1)*(n_+1), fp);
 	fwrite(y_, sizeof(double), (m_+1)*(n_+1), fp);
 	fclose(fp);

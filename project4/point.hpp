@@ -17,8 +17,6 @@ public:
 
 	const Point operator+(const Point& Q) const;
 
-	//friend const Point operator+(const double x, const Point& Q);
-
 	~Point() { }
 	double getX() const { return x; }
 	double getY() const { return y; }

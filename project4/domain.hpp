@@ -38,7 +38,7 @@ public:
 
 	void generateGrid(int n, int m); 
 	void print(); 
-	void writeToFile(std::string filename);
+	void write(std::string filename);
 	
 };
 

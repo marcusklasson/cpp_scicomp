@@ -109,18 +109,6 @@ Matrix Matrix::operator+(const Matrix& M) const {
 	return result;
 }
 
-/*
-Matrix& Matrix::operator*(const Matrix& M) {
-	// point-wise multiplication
-	assert(m == M.m); // Matrix addition requires same size
-	assert(n == M.n);
-	for (int i = 0; i < m*n; ++i) {
-		A[i] *=  M.A[i];
-	}
-	return *this;
-}
-*/
-
 const Matrix& Matrix::operator*=(const double c) {
 	for (int i = 0; i < m*n; ++i) {
 		A[i] = c * A[i];
@@ -155,12 +143,12 @@ void Matrix::printMatrix() const {
 }
 
 void Matrix::fillMatrix() {
-	for (int i = 0; i<m*n; ++i) {
+	for (int i = 0; i < m*n; ++i) {
 		A[i] = i;
 	}
 }
 
-void Matrix::writeToFile(string filename) const {
+void Matrix::write(string filename) {
 	if (m < 1 || n < 1) {
 		cout << "Error! No matrix to write to file..." << endl;
 		return;

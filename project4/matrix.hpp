@@ -25,16 +25,13 @@ public:
 	const Matrix& operator*=(const double);
 	void printMatrix() const;
 	void fillMatrix();
-	void writeToFile(std::string filename) const; 
+	void write(std::string filename); 
 
 	// New member functions
 	double& operator()(int row, int col) const;
 
 	int getRows() const {return m;}
 	int getCols() const {return n;}
-	//void setMatrixToIdentity();
-	double normFrobenius(); 
-	//Matrix(const std::string&);
 
 	friend std::ostream& operator<<(std::ostream& os, const Matrix& M);
 

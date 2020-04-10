@@ -13,7 +13,6 @@ class GFkt {
 
 private:
 	Matrix u;
-	//Domain *grid;
 	std::shared_ptr<Domain> grid;
 
 public:
@@ -30,7 +29,7 @@ public:
 	GFkt computeLaplace() const;
 
 	void print() const { u.printMatrix(); }
-	void writeToFile(std::string fileName) const { u.writeToFile(fileName); } // write to binary file
+	void write(std::string fileName) { u.write(fileName); } // write to binary file
 
 };
 

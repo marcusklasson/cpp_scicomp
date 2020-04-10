@@ -32,32 +32,32 @@ int main() {
 	cout << "Generate grid" << endl;
 	shared_ptr<Domain> grid = make_shared<Domain>(s1, s2, s3, s4);
 	grid->generateGrid(m, n);
-	grid->print();
-	grid->writeToFile("grid.bin");
+	//grid->print();
+	grid->write("grid.bin");
 
 	// Set grid function u(x, y) = targetFunction()
 	GFkt U = GFkt(grid);
 	U.setFunction(*targetFunction);
-	U.print();
+	//U.print();
 	
 	// Derivative du/dx
 	cout << "Derivative of u wrt x" << endl;
 	GFkt dux = U.D0x();
-	dux.print();
-	dux.writeToFile("dux.bin");
+	//dux.print();
+	dux.write("dux.bin");
 	
 	// Derivative du/dy
 	cout << "Derivative of u wrt y" << endl;
 	GFkt duy = U.D0y();
-	duy.print();
-	duy.writeToFile("duy.bin");
+	//duy.print();
+	duy.write("duy.bin");
 
 	
 	// Laplacian (du/dx)**2 + (du/dy)**2 = du/dt
 	cout << "Laplacian" << endl;
 	GFkt laplace = U.computeLaplace();
-	laplace.print();
-	laplace.writeToFile("laplace.bin");
+	//laplace.print();
+	laplace.write("laplace.bin");
 	
 	cout << "\nEnd of program.\n" << endl;
 	return 0;
