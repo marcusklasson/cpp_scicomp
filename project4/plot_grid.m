@@ -43,7 +43,7 @@ figure()
 dudx_true = 0.02.*X.*cos(0.01*X.^2).*cos(0.1*X) - 0.1.*sin(0.01*X.^2).*sin(0.1*X);
 surf(X,Y,dudx_true);
 colorbar
-xlabel('x'); ylabel('y'); zlabel('true du/dx');
+xlabel('x'); ylabel('y'); zlabel('True du/dx');
 
 %%
 figure()
@@ -55,10 +55,10 @@ err = mean(err(:))
 
 %%
 figure()
-dudy_true = ones(size(duy'));
+dudy_true = ones(size(dudy'));
 surf(X,Y,dudy_true);
 colorbar
-xlabel('x'); ylabel('y'); zlabel('true du/dy');
+xlabel('x'); ylabel('y'); zlabel('True du/dy');
 
 %%
 figure()
